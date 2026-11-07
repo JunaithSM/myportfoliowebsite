@@ -671,7 +671,7 @@ Structured data has been unified into a single Schema.org `@graph` per page, est
       "@type": "WebSite",
       "@id": "https://www.junaith.dev/#website",
       "url": "https://www.junaith.dev",
-      "name": "S Mohammed Junaith (Junaith) — Gameplay Programmer & Software Engineer",
+      "name": "S Mohammed Junaith  — Gameplay Programmer & Software Engineer",
       "publisher": { "@id": "https://www.junaith.dev/#person" },
       "inLanguage": "en-US"
     },
