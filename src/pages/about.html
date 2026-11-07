@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{> head}}
+</head>
+
+<body>
+  {{> header}}
+
+  <main id="main-content" class="site-main">
+    <!-- Full-Width Hero Section -->
+    <header class="about-hero">
+      <h1 class="about-title rubber-title is-revealed" aria-label="{{about.title}}" data-rubber-init="true">
+        {{about_title_letters}}
+      </h1>
+    </header>
+
+    <div class="container">
+      <article class="section about-section" aria-labelledby="about-me-heading">
+        <h2 id="about-me-heading" class="visually-hidden">About {{site.fullName}}</h2>
+        <div class="about-prose">
+          {{about_prose}}
+        </div>
+      </article>
+    </div>
+  </main>
+
+  {{> footer}}
+
+  <!-- Animations: Rubber Text & Scroll Float (Active across all devices) -->
+  <script src="/js/rubber-text.js" defer></script>
+  <script src="/js/scroll-float.js" defer></script>
+
+  <!-- Desktop-Only Interactive Arrow Canvas Engine (Skipped on mobile) -->
+  <script>
+    if (window.innerWidth >= 768) {
+      ['/js/arrow-config.js', '/js/turtle-canvas.js'].forEach(function(src) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = false;
+        document.body.appendChild(s);
+      });
+    }
+  </script>
+</body>
+
+</html>

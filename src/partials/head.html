@@ -1,0 +1,89 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Instant Persistent Theme Engine (Zero-Flash, LocalStorage Synchronized) -->
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved ? saved : (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) { }
+  })();
+</script>
+
+<!-- Primary SEO Meta Tags -->
+<title>{{page.title}}</title>
+<meta name="title" content="{{page.title}}">
+<meta name="description" content="{{page.description}}">
+<meta name="author" content="{{site.author}}">
+<meta name="robots" content="{{page.robots}}">
+<meta name="theme-color" content="{{site.themeColor}}" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="{{site.themeColorDark}}" media="(prefers-color-scheme: dark)">
+
+<!-- Typography: Flecha M (local) + Fraunces (fallback) & Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
+  rel="stylesheet">
+
+<!-- Canonical Link (omitted on error pages) -->
+{{canonical_tag}}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+{{og_url_tag}}
+<meta property="og:title" content="{{page.title}}">
+<meta property="og:description" content="{{page.description}}">
+<meta property="og:image" content="{{site.url}}/assets/og-image.png">
+<meta property="og:image:secure_url" content="{{site.url}}/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{site.author}} - Game Developer & Systems Software Engineer">
+<meta property="og:site_name" content="{{site.name}}">
+<meta property="og:locale" content="{{site.locale}}">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+{{twitter_url_tag}}
+<meta name="twitter:title" content="{{page.title}}">
+<meta name="twitter:description" content="{{page.description}}">
+<meta name="twitter:image" content="{{site.url}}/assets/og-image.png">
+<meta name="twitter:image:alt" content="{{site.author}} - Game Developer & Systems Software Engineer">
+<meta name="twitter:creator" content="{{site.twitter}}">
+
+<!-- Critical Performance Links -->
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="manifest" href="/assets/manifest.json">
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Client-side Clean URL Canonicalization -->
+<script>
+  (function () {
+    try {
+      if (window.location.protocol !== 'file:' && window.location.origin && window.location.origin !== 'null') {
+        var p = window.location.pathname;
+        if (p.indexOf('/src/pages/') !== -1) {
+          window.location.replace(p.replace(/\/src\/pages\//, '/'));
+          return;
+        }
+        if (p.endsWith('.html')) {
+          var clean = p.replace(/\/index\.html$/, '/')
+            .replace(/\.html$/, '');
+          if (clean !== p) {
+            window.history.replaceState(null, '', clean + window.location.search + window.location.hash);
+          }
+        }
+      }
+    } catch (e) {
+      // Gracefully ignore history manipulation errors in opaque/sandboxed environments
+    }
+  })();
+</script>
+
+<!-- Structured Data (JSON-LD) for Search Engines -->
+{{schema_markup}}

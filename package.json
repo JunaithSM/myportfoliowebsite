@@ -1,0 +1,25 @@
+{
+  "name": "junaith-portfolio",
+  "version": "1.0.0",
+  "description": "High-performance systems architect portfolio with interactive scroll canvas arrow engine",
+  "main": "src/js/turtle-canvas.js",
+  "types": "src/js/turtle-canvas.d.ts",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "serve": "node serve.js",
+    "start": "node serve.js",
+    "test": "node --test tests/engine.test.js \"tests/e2e/**/*.test.js\""
+  },
+  "keywords": [
+    "canvas",
+    "scroll-animation",
+    "turtle",
+    "bezier",
+    "portfolio",
+    "performance"
+  ],
+  "author": "S Mohammed Junaith",
+  "license": "MIT"
+}
+

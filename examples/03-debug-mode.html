@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example 3: Debug Mode & Handles</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #FFFAF3;
+      color: #1C1714;
+      min-height: 250vh;
+    }
+    .header {
+      padding: 40px;
+      text-align: center;
+    }
+    .btn {
+      padding: 10px 18px;
+      background: #F62440;
+      color: #FFFAF3;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .turtle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Debug Mode Visualization</h1>
+    <p>Displays control points, handle lines, progress percentage, and engine HUD.</p>
+    <button class="btn" onclick="window.TurtleEngine.toggleDebug()">Toggle Debug HUD</button>
+  </div>
+
+  <script src="../src/js/turtle-canvas.js"></script>
+  <script>
+    // Enable debug by default in this example
+    window.TurtleEngine.setDebug(true);
+
+    function animate({ width, height, getProgress, drawCubic }) {
+      const p = getProgress(0, 800);
+      if (p > 0) {
+        drawCubic({
+          start: { x: width * 0.15, y: height * 0.35 },
+          cp1:   { x: width * 0.35, y: height * 0.10 },
+          cp2:   { x: width * 0.65, y: height * 0.70 },
+          end:   { x: width * 0.85, y: height * 0.40 },
+          progress: p,
+          strokeWidth: 3,
+          strokeColor: '#F62440',
+          moveWithScroll: false,
+          arrow: true,
+          debug: true // Shows red/blue control points and handles
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+

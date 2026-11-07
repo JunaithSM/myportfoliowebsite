@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curve Coordinate Drawer & Editor</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #FFFAF3;
+      color: #1C1714;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+    }
+
+    #draw-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      touch-action: none;
+    }
+
+    /* Transition for all UI overlays */
+    .ui-element {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    body.hide-ui .ui-element {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(-20px) !important;
+    }
+    body.hide-ui .code-panel {
+      transform: translateX(-50%) translateY(40px) !important;
+    }
+    body.hide-ui .toolbar {
+      transform: translateX(-50%) translateY(-40px) !important;
+    }
+
+    /* Floating Control Bar */
+    .toolbar {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 250, 243, 0.95);
+      border: 1px solid rgba(28, 23, 20, 0.15);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(28, 23, 20, 0.12);
+      border-radius: 9999px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+      font-size: 13px;
+    }
+
+    .mode-switch {
+      display: flex;
+      background: rgba(28, 23, 20, 0.08);
+      border-radius: 9999px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .mode-btn {
+      background: transparent;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #574B45;
+      transition: all 0.15s ease;
+    }
+    .mode-btn.active {
+      background: #1C1714;
+      color: #FFFAF3;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn {
+      background: #F62440;
+      color: #FFFAF3;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { background: #d91c35; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: #FFE5BF;
+      color: #1C1714;
+    }
+    .btn-secondary:hover { background: #f7dac4; }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(28, 23, 20, 0.2);
+      color: #1C1714;
+    }
+    .btn-outline:hover { background: rgba(0,0,0,0.05); }
+
+    .btn-selected {
+      background: #2196F3 !important;
+      color: #FFFFFF !important;
+      border: none !important;
+    }
+
+    .slider-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-inline: 8px;
+      border-left: 1px solid rgba(28, 23, 20, 0.12);
+      border-right: 1px solid rgba(28, 23, 20, 0.12);
+    }
+    .slider-group input[type="range"] {
+      width: 90px;
+      accent-color: #F62440;
+      cursor: pointer;
+    }
+
+    /* Floating Bottom Panel: Code Preview */
+    .code-panel {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(92vw, 840px);
+      background: rgba(28, 23, 20, 0.94);
+      color: #FFFAF3;
+      border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .code-panel.collapsed {
+      height: 48px;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      background: rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .code-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .code-body {
+      padding: 14px 18px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #FFF2DB;
+      white-space: pre;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: #1C1714;
+      color: #FFFAF3;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 200;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .badge {
+      font-size: 11px;
+      background: rgba(246, 36, 64, 0.12);
+      color: #F62440;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+    .badge-blue {
+      background: rgba(33, 150, 243, 0.15);
+      color: #1976D2;
+    }
+
+    /* Interactive Instruction Pill */
+    .instructions-pill {
+      position: fixed;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 250, 243, 0.95);
+      border: 1px solid rgba(28, 23, 20, 0.12);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 12px;
+      color: #574B45;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      pointer-events: none;
+      z-index: 90;
+    }
+    .instructions-pill span { display: flex; align-items: center; gap: 4px; }
+
+    /* Floating Unhide Button (shown when UI is hidden) */
+    .unhide-trigger {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: rgba(28, 23, 20, 0.75);
+      color: #FFFAF3;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 300;
+      transition: all 0.2s ease;
+    }
+    .unhide-trigger:hover {
+      background: #1C1714;
+      transform: scale(1.04);
+    }
+    body.hide-ui .unhide-trigger {
+      display: inline-flex !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Full Screen Drawing Canvas -->
+  <canvas id="draw-canvas"></canvas>
+
+  <!-- Floating Trigger to bring UI back -->
+  <button class="unhide-trigger" id="btn-unhide" title="Show UI (Press H or click here)">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+    Show UI (H)
+  </button>
+
+  <!-- Instructions Pill -->
+  <div class="instructions-pill ui-element" id="instructions">
+    <span>🖐️ <strong>Drag</strong> point to move</span>
+    <span>⇧ <strong>Shift+Click</strong> / <strong>Drag Box</strong> to multi-select</span>
+    <span>➕ <strong>Click line</strong> to add</span>
+    <span>👁️ <strong>Press H</strong> to hide UI</span>
+  </div>
+
+  <!-- Top Toolbar -->
+  <div class="toolbar ui-element">
+    <!-- Mode Switch -->
+    <div class="mode-switch">
+      <button class="mode-btn active" id="mode-edit" title="Move, add, select, or delete points">🖐️ Edit</button>
+      <button class="mode-btn" id="mode-draw" title="Draw brand new curve freehand">✏️ Draw</button>
+    </div>
+
+    <!-- Select All / Deselect Toggle -->
+    <button class="btn btn-outline" id="btn-select-all" title="Select all points (Ctrl+A)">
+      Select All (Ctrl+A)
+    </button>
+
+    <button class="btn" id="btn-copy">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy Code
+    </button>
+
+    <button class="btn btn-secondary" id="btn-copy-raw">Copy Array</button>
+
+    <div class="slider-group">
+      <span>Preview:</span>
+      <input type="range" id="slider-progress" min="0" max="100" value="100" title="Scrub progress">
+      <span style="font-variant-numeric: tabular-nums; font-size: 12px;" id="progress-val">100%</span>
+    </div>
+
+    <span class="badge" id="point-count-badge">0 pts</span>
+    <span class="badge badge-blue" id="selected-count-badge" style="display: none;">0 selected</span>
+
+    <!-- Hide UI Button -->
+    <button class="btn btn-outline" id="btn-hide-ui" title="Hide all UI controls to see full screen curve (Press H)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+      Hide UI (H)
+    </button>
+
+    <button class="btn btn-outline" id="btn-clear" title="Clear canvas">Clear</button>
+
+    <!-- Trace Background Image -->
+    <label class="btn btn-outline" style="cursor: pointer;" title="Load reference image to trace over">
+      Trace
+      <input type="file" id="image-upload" accept="image/*" style="display: none;">
+    </label>
+  </div>
+
+  <!-- Bottom Code Output Box -->
+  <div class="code-panel ui-element" id="code-panel">
+    <div class="code-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span>📋 Ready-to-Paste JavaScript for <code>arrow-config.js</code></span>
+        <span class="badge" id="mode-badge">Responsive (width * ratio)</span>
+      </div>
+      <div class="code-header-actions">
+        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px;" id="btn-toggle-mode">
+          Switch to Raw 0-1
+        </button>
+        <button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px; color:#fff;" id="btn-collapse">
+          Toggle View
+        </button>
+      </div>
+    </div>
+    <div class="code-body" id="code-output">// Draw or adjust points to generate code...</div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Copied to clipboard! Ready to paste into arrow-config.js</div>
+
+  <script>
+    const canvas = document.getElementById('draw-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const sliderProgress = document.getElementById('slider-progress');
+    const pointBadge = document.getElementById('point-count-badge');
+    const selectedBadge = document.getElementById('selected-count-badge');
+    const progressVal = document.getElementById('progress-val');
+    const codeOutput = document.getElementById('code-output');
+    const toast = document.getElementById('toast');
+    const btnSelectAll = document.getElementById('btn-select-all');
+    const btnHideUI = document.getElementById('btn-hide-ui');
+    const btnUnhide = document.getElementById('btn-unhide');
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let dpr = window.devicePixelRatio || 1;
+
+    let appMode = 'edit'; // 'edit' | 'draw'
+    let waypoints = [];   // Array of {x, y}
+    let isUIHidden = false;
+
+    // MULTI-SELECTION STATE
+    const selectedIndices = new Set();
+
+    let isDrawing = false;
+    let isDraggingSelection = false;
+    let dragAnchorPos = null;
+
+    let hoveredPointIdx = -1;
+    let hoveredInsertPos = null;
+    let traceImage = null;
+    let outputMode = 'responsive';
+
+    // Marquee box selection state
+    let isMarquee = false;
+    let marqueeStart = null;
+    let marqueeCurrent = null;
+
+    function setUIVisibility(hidden) {
+      isUIHidden = hidden;
+      if (isUIHidden) {
+        document.body.classList.add('hide-ui');
+      } else {
+        document.body.classList.remove('hide-ui');
+      }
+    }
+
+    btnHideUI.addEventListener('click', () => setUIVisibility(true));
+    btnUnhide.addEventListener('click', () => setUIVisibility(false));
+
+    function initDefaultCurve() {
+      const boxWidth  = Math.min(width * 0.85, 950);
+      const boxHeight = Math.min(height * 0.70, 550);
+      const startX    = (width - boxWidth) / 2;
+      const startY    = (height - boxHeight) / 2;
+
+      const sketchPoints = [
+        { x: 0.005, y: 0.007 },
+        { x: 0.078, y: 0.037 },
+        { x: 0.094, y: 0.228 },
+        { x: 0.057, y: 0.441 },
+        { x: 0.068, y: 0.603 },
+        { x: 0.130, y: 0.684 },
+        { x: 0.234, y: 0.699 },
+        { x: 0.349, y: 0.618 },
+        { x: 0.349, y: 0.382 },
+        { x: 0.458, y: 0.287 },
+        { x: 0.516, y: 0.419 },
+        { x: 0.490, y: 0.551 },
+        { x: 0.385, y: 0.669 },
+        { x: 0.484, y: 0.743 },
+        { x: 0.620, y: 0.772 },
+        { x: 0.771, y: 0.772 },
+        { x: 0.950, y: 0.765 }
+      ];
+
+      waypoints = sketchPoints.map(p => ({
+        x: startX + p.x * boxWidth,
+        y: startY + p.y * boxHeight
+      }));
+
+      pointBadge.textContent = waypoints.length + ' pts';
+      updateCodeOutput();
+    }
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.scale(dpr, dpr);
+      redraw();
+    }
+    window.addEventListener('resize', resize);
+
+    function getPointerPos(e) {
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX, y: clientY };
+    }
+
+    function distSq(p1, p2) {
+      const dx = p1.x - p2.x;
+      const dy = p1.y - p2.y;
+      return dx * dx + dy * dy;
+    }
+
+    function distToSegment(p, v, w) {
+      const l2 = distSq(v, w);
+      if (l2 === 0) return { d: Math.sqrt(distSq(p, v)), proj: v };
+      let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+      t = Math.max(0, Math.min(1, t));
+      const proj = { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) };
+      return { d: Math.sqrt(distSq(p, proj)), proj: proj };
+    }
+
+    function findPointNear(pt, radius = 15) {
+      const r2 = radius * radius;
+      for (let i = 0; i < waypoints.length; i++) {
+        if (distSq(pt, waypoints[i]) <= r2) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function getSelectionBoundingBox() {
+      if (selectedIndices.size <= 1) return null;
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      selectedIndices.forEach(idx => {
+        const p = waypoints[idx];
+        if (p) {
+          minX = Math.min(minX, p.x);
+          minY = Math.min(minY, p.y);
+          maxX = Math.max(maxX, p.x);
+          maxY = Math.max(maxY, p.y);
+        }
+      });
+      return { minX: minX - 16, minY: minY - 16, maxX: maxX + 16, maxY: maxY + 16 };
+    }
+
+    function findCurveSegmentNear(pt, radius = 12) {
+      if (waypoints.length < 2) return null;
+      const samples = getDetailedCurvePoints();
+
+      let minD = Infinity;
+      let closestPt = null;
+
+      for (let i = 0; i < samples.length - 1; i++) {
+        const res = distToSegment(pt, samples[i], samples[i + 1]);
+        if (res.d < minD) {
+          minD = res.d;
+          closestPt = res.proj;
+        }
+      }
+
+      if (minD <= radius) {
+        let insertIdx = 1;
+        let minWDist = Infinity;
+        for (let i = 0; i < waypoints.length - 1; i++) {
+          const res = distToSegment(closestPt, waypoints[i], waypoints[i + 1]);
+          if (res.d < minWDist) {
+            minWDist = res.d;
+            insertIdx = i + 1;
+          }
+        }
+        return { x: closestPt.x, y: closestPt.y, insertIdx: insertIdx };
+      }
+      return null;
+    }
+
+    function updateSelectionBadge() {
+      if (selectedIndices.size > 0) {
+        selectedBadge.style.display = 'inline-block';
+        selectedBadge.textContent = `${selectedIndices.size} selected`;
+      } else {
+        selectedBadge.style.display = 'none';
+      }
+
+      if (selectedIndices.size === waypoints.length && waypoints.length > 0) {
+        btnSelectAll.classList.add('btn-selected');
+        btnSelectAll.textContent = 'Deselect (Esc)';
+      } else {
+        btnSelectAll.classList.remove('btn-selected');
+        btnSelectAll.textContent = 'Select All (Ctrl+A)';
+      }
+    }
+
+    function selectAllPoints() {
+      selectedIndices.clear();
+      for (let i = 0; i < waypoints.length; i++) {
+        selectedIndices.add(i);
+      }
+      updateSelectionBadge();
+      redraw();
+    }
+
+    function deselectAllPoints() {
+      selectedIndices.clear();
+      updateSelectionBadge();
+      redraw();
+    }
+
+    btnSelectAll.addEventListener('click', () => {
+      if (selectedIndices.size === waypoints.length) {
+        deselectAllPoints();
+      } else {
+        selectAllPoints();
+      }
+    });
+
+    // POINTER EVENT HANDLERS
+    canvas.addEventListener('mousedown', (e) => {
+      const pt = getPointerPos(e);
+
+      // Right Click -> Delete point
+      if (e.button === 2) {
+        const nearIdx = findPointNear(pt);
+        if (nearIdx !== -1 && waypoints.length > 2) {
+          if (selectedIndices.has(nearIdx)) {
+            deleteSelectedPoints();
+          } else {
+            waypoints.splice(nearIdx, 1);
+            selectedIndices.clear();
+            pointBadge.textContent = waypoints.length + ' pts';
+            updateSelectionBadge();
+            redraw();
+            updateCodeOutput();
+          }
+        }
+        return;
+      }
+
+      if (appMode === 'draw') {
+        isDrawing = true;
+        waypoints = [pt];
+        selectedIndices.clear();
+        updateSelectionBadge();
+        redraw();
+        return;
+      }
+
+      // Edit Mode
+      const nearPoint = findPointNear(pt);
+
+      // 1. Shift + Click on a point -> Toggle individual selection
+      if (e.shiftKey && nearPoint !== -1) {
+        if (selectedIndices.has(nearPoint)) {
+          selectedIndices.delete(nearPoint);
+        } else {
+          selectedIndices.add(nearPoint);
+        }
+        updateSelectionBadge();
+        redraw();
+        return;
+      }
+
+      // 2. Clicked on a point
+      if (nearPoint !== -1) {
+        if (!selectedIndices.has(nearPoint)) {
+          selectedIndices.clear();
+          selectedIndices.add(nearPoint);
+          updateSelectionBadge();
+        }
+
+        isDraggingSelection = true;
+        dragAnchorPos = pt;
+        canvas.style.cursor = 'grabbing';
+        redraw();
+        return;
+      }
+
+      // 3. Clicked on curve line to insert a new point
+      const nearInsert = findCurveSegmentNear(pt);
+      if (nearInsert) {
+        waypoints.splice(nearInsert.insertIdx, 0, { x: nearInsert.x, y: nearInsert.y });
+        selectedIndices.clear();
+        selectedIndices.add(nearInsert.insertIdx);
+        isDraggingSelection = true;
+        dragAnchorPos = pt;
+        pointBadge.textContent = waypoints.length + ' pts';
+        updateSelectionBadge();
+        redraw();
+        updateCodeOutput();
+        canvas.style.cursor = 'grabbing';
+        return;
+      }
+
+      // 4. Clicked in empty space -> Marquee Box Selection
+      isMarquee = true;
+      marqueeStart = pt;
+      marqueeCurrent = pt;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      const pt = getPointerPos(e);
+
+      if (isDrawing && appMode === 'draw') {
+        const last = waypoints[waypoints.length - 1];
+        if (distSq(pt, last) > 64) {
+          waypoints.push(pt);
+          pointBadge.textContent = waypoints.length + ' pts';
+          redraw();
+        }
+        return;
+      }
+
+      // DRAGGING SELECTED POINTS TOGETHER
+      if (isDraggingSelection && dragAnchorPos && selectedIndices.size > 0) {
+        const dx = pt.x - dragAnchorPos.x;
+        const dy = pt.y - dragAnchorPos.y;
+
+        selectedIndices.forEach(idx => {
+          if (waypoints[idx]) {
+            waypoints[idx].x += dx;
+            waypoints[idx].y += dy;
+          }
+        });
+
+        dragAnchorPos = pt;
+        redraw();
+        updateCodeOutput();
+        return;
+      }
+
+      // MARQUEE BOX SELECTION DRAG
+      if (isMarquee && marqueeStart) {
+        marqueeCurrent = pt;
+        redraw();
+        return;
+      }
+
+      if (appMode === 'edit') {
+        const nearPoint = findPointNear(pt);
+
+        if (nearPoint !== -1) {
+          hoveredPointIdx = nearPoint;
+          hoveredInsertPos = null;
+          canvas.style.cursor = selectedIndices.has(nearPoint) ? 'move' : 'grab';
+          redraw();
+          return;
+        } else {
+          hoveredPointIdx = -1;
+        }
+
+        const nearInsert = findCurveSegmentNear(pt);
+        if (nearInsert) {
+          hoveredInsertPos = nearInsert;
+          canvas.style.cursor = 'copy';
+          redraw();
+          return;
+        } else {
+          hoveredInsertPos = null;
+        }
+
+        canvas.style.cursor = 'default';
+        redraw();
+      }
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (isDrawing) {
+        isDrawing = false;
+        if (waypoints.length > 18) {
+          waypoints = resamplePoints(waypoints, 18);
+        }
+        pointBadge.textContent = waypoints.length + ' pts';
+        appMode = 'edit';
+        document.getElementById('mode-edit').classList.add('active');
+        document.getElementById('mode-draw').classList.remove('active');
+        redraw();
+        updateCodeOutput();
+      }
+
+      // FINALIZE MARQUEE SELECTION
+      if (isMarquee && marqueeStart && marqueeCurrent) {
+        const minX = Math.min(marqueeStart.x, marqueeCurrent.x);
+        const maxX = Math.max(marqueeStart.x, marqueeCurrent.x);
+        const minY = Math.min(marqueeStart.y, marqueeCurrent.y);
+        const maxY = Math.max(marqueeStart.y, marqueeCurrent.y);
+        const dragDist = Math.max(maxX - minX, maxY - minY);
+
+        if (dragDist > 6) {
+          if (!e.shiftKey) {
+            selectedIndices.clear();
+          }
+          waypoints.forEach((p, idx) => {
+            if (p.x >= minX && p.x <= maxX && p.y >= minY && p.y <= maxY) {
+              selectedIndices.add(idx);
+            }
+          });
+        } else {
+          if (!e.shiftKey) {
+            selectedIndices.clear();
+          }
+        }
+        updateSelectionBadge();
+      }
+
+      isMarquee = false;
+      marqueeStart = null;
+      marqueeCurrent = null;
+      isDraggingSelection = false;
+      dragAnchorPos = null;
+      canvas.style.cursor = 'default';
+      redraw();
+    });
+
+    // Double click to delete
+    canvas.addEventListener('dblclick', (e) => {
+      const pt = getPointerPos(e);
+      const nearIdx = findPointNear(pt);
+      if (nearIdx !== -1 && waypoints.length > 2) {
+        waypoints.splice(nearIdx, 1);
+        selectedIndices.clear();
+        pointBadge.textContent = waypoints.length + ' pts';
+        updateSelectionBadge();
+        redraw();
+        updateCodeOutput();
+      }
+    });
+
+    canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    function deleteSelectedPoints() {
+      if (selectedIndices.size === 0) return;
+      if (waypoints.length - selectedIndices.size < 2) {
+        alert("You must keep at least 2 points for a curve.");
+        return;
+      }
+      waypoints = waypoints.filter((_, idx) => !selectedIndices.has(idx));
+      selectedIndices.clear();
+      pointBadge.textContent = waypoints.length + ' pts';
+      updateSelectionBadge();
+      redraw();
+      updateCodeOutput();
+    }
+
+    // Catmull-Rom Spline
+    function catmullRomToCubicSegments(pts) {
+      if (!pts || pts.length < 2) return [];
+      const segments = [];
+      const n = pts.length;
+      for (let i = 0; i < n - 1; i++) {
+        const p0 = pts[Math.max(0, i - 1)];
+        const p1 = pts[i];
+        const p2 = pts[i + 1];
+        const p3 = pts[Math.min(n - 1, i + 2)];
+
+        const cp1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
+        const cp2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
+        segments.push({ p0: p1, cp1, cp2, p3: p2 });
+      }
+      return segments;
+    }
+
+    function evalCubicBezier(p0, p1, p2, p3, t) {
+      const it = 1 - t;
+      return {
+        x: it*it*it*p0.x + 3*it*it*t*p1.x + 3*it*t*t*p2.x + t*t*t*p3.x,
+        y: it*it*it*p0.y + 3*it*it*t*p1.y + 3*it*t*t*p2.y + t*t*t*p3.y
+      };
+    }
+
+    function resamplePoints(points, targetCount) {
+      if (points.length < 2) return points;
+      const dists = [0];
+      let total = 0;
+      for (let i = 1; i < points.length; i++) {
+        total += Math.sqrt(distSq(points[i], points[i - 1]));
+        dists.push(total);
+      }
+      if (total === 0) return [points[0], points[points.length - 1]];
+
+      const resampled = [points[0]];
+      const step = total / (targetCount - 1);
+
+      for (let k = 1; k < targetCount - 1; k++) {
+        const targetD = k * step;
+        let idx = 0;
+        while (idx < dists.length - 1 && dists[idx + 1] < targetD) idx++;
+        const d0 = dists[idx];
+        const d1 = dists[idx + 1];
+        const t = (targetD - d0) / (d1 - d0);
+        resampled.push({
+          x: points[idx].x + (points[idx + 1].x - points[idx].x) * t,
+          y: points[idx].y + (points[idx + 1].y - points[idx].y) * t
+        });
+      }
+      resampled.push(points[points.length - 1]);
+      return resampled;
+    }
+
+    function getDetailedCurvePoints() {
+      if (waypoints.length < 2) return [];
+      const segments = catmullRomToCubicSegments(waypoints);
+      const curvePts = [];
+      segments.forEach((seg, sIdx) => {
+        const startI = sIdx === 0 ? 0 : 1;
+        for (let i = startI; i <= 30; i++) {
+          curvePts.push(evalCubicBezier(seg.p0, seg.cp1, seg.cp2, seg.p3, i / 30));
+        }
+      });
+      return curvePts;
+    }
+
+    function drawArrowSprite(targetCtx, x, y, angle, size, color) {
+      targetCtx.save();
+      targetCtx.translate(x, y);
+      targetCtx.rotate(angle);
+      targetCtx.fillStyle = color;
+      targetCtx.strokeStyle = color;
+      targetCtx.lineJoin = 'round';
+      targetCtx.lineCap = 'round';
+      targetCtx.lineWidth = 1.6;
+
+      targetCtx.beginPath();
+      const tipX = size * 0.95;
+      const backX = -size * 0.65;
+      const notchX = -size * 0.22;
+      const halfWing = size * 0.52;
+
+      targetCtx.moveTo(tipX, 0);
+      targetCtx.lineTo(backX, -halfWing);
+      targetCtx.lineTo(notchX, 0);
+      targetCtx.lineTo(backX, halfWing);
+      targetCtx.closePath();
+      targetCtx.fill();
+      targetCtx.stroke();
+      targetCtx.restore();
+    }
+
+    function redraw() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Background trace image
+      if (traceImage) {
+        ctx.save();
+        ctx.globalAlpha = 0.35;
+        const imgRatio = traceImage.width / traceImage.height;
+        let drawW = width * 0.7;
+        let drawH = drawW / imgRatio;
+        if (drawH > height * 0.75) {
+          drawH = height * 0.75;
+          drawW = drawH * imgRatio;
+        }
+        ctx.drawImage(traceImage, (width - drawW) / 2, (height - drawH) / 2, drawW, drawH);
+        ctx.restore();
+      }
+
+      if (waypoints.length < 2) return;
+
+      const curvePts = getDetailedCurvePoints();
+
+      // Distances
+      const dists = [0];
+      let total = 0;
+      for (let i = 1; i < curvePts.length; i++) {
+        total += Math.sqrt(distSq(curvePts[i], curvePts[i - 1]));
+        dists.push(total);
+      }
+
+      const progress = parseInt(sliderProgress.value, 10) / 100;
+      const targetDist = progress * total;
+      let idx = 0;
+      while (idx < dists.length - 1 && dists[idx + 1] < targetDist) idx++;
+      const d0 = dists[idx];
+      const d1 = dists[Math.min(idx + 1, dists.length - 1)];
+      const span = d1 - d0;
+      const segT = span > 0.0001 ? (targetDist - d0) / span : 0;
+
+      const pA = curvePts[idx];
+      const pB = curvePts[Math.min(idx + 1, curvePts.length - 1)];
+      const currentPt = {
+        x: pA.x + (pB.x - pA.x) * segT,
+        y: pA.y + (pB.y - pA.y) * segT
+      };
+
+      let angle = 0;
+      const dx = pB.x - pA.x;
+      const dy = pB.y - pA.y;
+      if (Math.abs(dx) > 0.0001 || Math.abs(dy) > 0.0001) {
+        angle = Math.atan2(dy, dx);
+      }
+
+      // Draw Selection Bounding Box if multiple points selected
+      const selBox = getSelectionBoundingBox();
+      if (selBox) {
+        ctx.save();
+        ctx.strokeStyle = '#2196F3';
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([5, 5]);
+        ctx.strokeRect(selBox.minX, selBox.minY, selBox.maxX - selBox.minX, selBox.maxY - selBox.minY);
+        ctx.fillStyle = 'rgba(33, 150, 243, 0.03)';
+        ctx.fillRect(selBox.minX, selBox.minY, selBox.maxX - selBox.minX, selBox.maxY - selBox.minY);
+
+        ctx.fillStyle = '#2196F3';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`${selectedIndices.size} points selected (Drag any selected point to move)`, selBox.minX + 6, selBox.minY - 6);
+        ctx.restore();
+      }
+
+      // Draw Marquee Box
+      if (isMarquee && marqueeStart && marqueeCurrent) {
+        ctx.save();
+        ctx.strokeStyle = '#2196F3';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        const rx = Math.min(marqueeStart.x, marqueeCurrent.x);
+        const ry = Math.min(marqueeStart.y, marqueeCurrent.y);
+        const rw = Math.abs(marqueeCurrent.x - marqueeStart.x);
+        const rh = Math.abs(marqueeCurrent.y - marqueeStart.y);
+        ctx.strokeRect(rx, ry, rw, rh);
+        ctx.fillStyle = 'rgba(33, 150, 243, 0.1)';
+        ctx.fillRect(rx, ry, rw, rh);
+        ctx.restore();
+      }
+
+      // Draw Curve Path
+      ctx.beginPath();
+      ctx.strokeStyle = '#F62440';
+      ctx.lineWidth = 3.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.moveTo(curvePts[0].x, curvePts[0].y);
+      for (let i = 1; i <= idx; i++) {
+        ctx.lineTo(curvePts[i].x, curvePts[i].y);
+      }
+      ctx.lineTo(currentPt.x, currentPt.y);
+      ctx.stroke();
+
+      // Draw Arrow Head
+      if (progress > 0) {
+        drawArrowSprite(ctx, currentPt.x, currentPt.y, angle, 18, '#F62440');
+      }
+
+      // Draw Interactive Waypoints
+      waypoints.forEach((pt, i) => {
+        const isSelected = selectedIndices.has(i);
+        const isHovered = (i === hoveredPointIdx);
+
+        ctx.save();
+        if (isSelected || isHovered) {
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, isSelected ? 9.5 : 8.5, 0, Math.PI * 2);
+          ctx.fillStyle = isSelected ? 'rgba(33, 150, 243, 0.35)' : 'rgba(246, 36, 64, 0.25)';
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, isSelected ? 6 : (isHovered ? 5.5 : 4.5), 0, Math.PI * 2);
+
+        if (isSelected) ctx.fillStyle = '#2196F3'; // Selected = Bright Blue
+        else if (i === 0) ctx.fillStyle = '#4CAF50'; // Start = Green
+        else if (i === waypoints.length - 1) ctx.fillStyle = '#FF9800'; // End = Orange
+        else ctx.fillStyle = '#F62440'; // Middle = Crimson
+
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = isSelected ? 2 : 1.5;
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // Ghost insert dot
+      if (hoveredInsertPos && !isDraggingSelection) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(hoveredInsertPos.x, hoveredInsertPos.y, 7, 0, Math.PI * 2);
+        ctx.fillStyle = '#4CAF50';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(hoveredInsertPos.x - 3.5, hoveredInsertPos.y);
+        ctx.lineTo(hoveredInsertPos.x + 3.5, hoveredInsertPos.y);
+        ctx.moveTo(hoveredInsertPos.x, hoveredInsertPos.y - 3.5);
+        ctx.lineTo(hoveredInsertPos.x, hoveredInsertPos.y + 3.5);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function updateCodeOutput() {
+      if (waypoints.length < 2) {
+        codeOutput.textContent = '// Draw or adjust points to generate code...';
+        return;
+      }
+
+      let code = '';
+      if (outputMode === 'responsive') {
+        const ptsCode = waypoints.map(p => {
+          const rx = (p.x / width).toFixed(3);
+          const ry = (p.y / height).toFixed(3);
+          return `      { x: width * ${rx}, y: height * ${ry} }`;
+        }).join(',\n');
+
+        code = `// Paste into animate() in src/js/arrow-config.js:
+drawSpline({
+  points: [
+${ptsCode}
+  ],
+  progress: progress,
+  strokeWidth: 3.5,
+  strokeColor: themeColor,
+  moveWithScroll: false, // Fixed to screen
+  arrow: {
+    show: true,
+    size: 18,
+    color: themeColor
+  }
+});`;
+      } else {
+        const ptsCode = waypoints.map(p => {
+          const rx = (p.x / width).toFixed(3);
+          const ry = (p.y / height).toFixed(3);
+          return `  { x: ${rx}, y: ${ry} }`;
+        }).join(',\n');
+
+        code = `const sketchPoints = [\n${ptsCode}\n];`;
+      }
+
+      codeOutput.textContent = code;
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      });
+    }
+
+    document.getElementById('btn-copy').addEventListener('click', () => {
+      copyToClipboard(codeOutput.textContent);
+    });
+
+    document.getElementById('btn-copy-raw').addEventListener('click', () => {
+      const rawCode = waypoints.map(p => {
+        return `  { x: ${(p.x / width).toFixed(3)}, y: ${(p.y / height).toFixed(3)} }`;
+      }).join(',\n');
+      copyToClipboard(`[\n${rawCode}\n]`);
+    });
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      waypoints = [];
+      selectedIndices.clear();
+      pointBadge.textContent = '0 pts';
+      updateSelectionBadge();
+      redraw();
+      updateCodeOutput();
+    });
+
+    // Mode Toggle
+    const modeEdit = document.getElementById('mode-edit');
+    const modeDraw = document.getElementById('mode-draw');
+
+    modeEdit.addEventListener('click', () => {
+      appMode = 'edit';
+      modeEdit.classList.add('active');
+      modeDraw.classList.remove('active');
+    });
+
+    modeDraw.addEventListener('click', () => {
+      appMode = 'draw';
+      modeDraw.classList.add('active');
+      modeEdit.classList.remove('active');
+      selectedIndices.clear();
+      updateSelectionBadge();
+    });
+
+    sliderProgress.addEventListener('input', () => {
+      progressVal.textContent = sliderProgress.value + '%';
+      redraw();
+    });
+
+    document.getElementById('btn-toggle-mode').addEventListener('click', () => {
+      outputMode = outputMode === 'responsive' ? 'normalized' : 'responsive';
+      document.getElementById('mode-badge').textContent = outputMode === 'responsive' ? 'Responsive (width * ratio)' : 'Normalized (0.0 to 1.0)';
+      document.getElementById('btn-toggle-mode').textContent = outputMode === 'responsive' ? 'Switch to Raw 0-1' : 'Switch to Responsive';
+      updateCodeOutput();
+    });
+
+    document.getElementById('btn-collapse').addEventListener('click', () => {
+      document.getElementById('code-panel').classList.toggle('collapsed');
+    });
+
+    // Trace image upload
+    document.getElementById('image-upload').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          traceImage = img;
+          redraw();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // KEYBOARD SHORTCUTS
+    window.addEventListener('keydown', (e) => {
+      // Toggle Hide UI on 'h' or 'H'
+      if ((e.key === 'h' || e.key === 'H') && !e.ctrlKey && !e.metaKey) {
+        setUIVisibility(!isUIHidden);
+        return;
+      }
+
+      // Ctrl+A / Cmd+A -> Select All
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'a' || e.key === 'A')) {
+        e.preventDefault();
+        selectAllPoints();
+        return;
+      }
+
+      // Esc -> Deselect All (or unhide UI if hidden)
+      if (e.key === 'Escape') {
+        if (isUIHidden) {
+          setUIVisibility(false);
+        } else {
+          deselectAllPoints();
+        }
+        return;
+      }
+
+      // Delete / Backspace -> Delete selected points
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (selectedIndices.size > 0) {
+          e.preventDefault();
+          deleteSelectedPoints();
+          return;
+        }
+      }
+
+      // Arrow keys nudge selected points
+      if (selectedIndices.size > 0 && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+        e.preventDefault();
+        const step = e.shiftKey ? 10 : 2;
+        let dx = 0, dy = 0;
+        if (e.key === 'ArrowLeft') dx = -step;
+        if (e.key === 'ArrowRight') dx = step;
+        if (e.key === 'ArrowUp') dy = -step;
+        if (e.key === 'ArrowDown') dy = step;
+
+        selectedIndices.forEach(idx => {
+          if (waypoints[idx]) {
+            waypoints[idx].x += dx;
+            waypoints[idx].y += dy;
+          }
+        });
+        redraw();
+        updateCodeOutput();
+      }
+    });
+
+    // Start
+    resize();
+    initDefaultCurve();
+    redraw();
+  </script>
+</body>
+</html>

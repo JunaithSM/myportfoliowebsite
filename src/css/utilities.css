@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Utility Classes & Accessibility Helpers (Unslop Standards)
+   ========================================================================== */
+
+/* Accessible Screen-Reader Only Pattern */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-accent { color: var(--color-accent); }
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.mt-xs { margin-top: var(--s2); }
+.mt-sm { margin-top: var(--s3); }
+.mt-md { margin-top: var(--s4); }
+.mt-lg { margin-top: var(--s6); }
+.mt-xl { margin-top: var(--s8); }
+.mt-2xl { margin-top: var(--s12); }
+
+.mb-xs { margin-bottom: var(--s2); }
+.mb-sm { margin-bottom: var(--s3); }
+.mb-md { margin-bottom: var(--s4); }
+.mb-lg { margin-bottom: var(--s6); }
+.mb-xl { margin-bottom: var(--s8); }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-xs { gap: var(--s2); }
+.gap-sm { gap: var(--s3); }
+.gap-md { gap: var(--s4); }
+.gap-lg { gap: var(--s6); }

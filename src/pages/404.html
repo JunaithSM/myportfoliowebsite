@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{> head}}
+</head>
+<body>
+  {{> header}}
+
+  <main id="main-content" class="site-main">
+    <section class="section error-page" aria-labelledby="error-heading">
+      <div class="container error-container">
+        <div class="error-code" aria-hidden="true">404</div>
+        <h1 id="error-heading" class="error-title">Page not found</h1>
+        <p class="error-lead">
+          The requested address does not exist, has been removed, or has been relocated to an extensionless route.
+        </p>
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">Return to home</a>
+          <a href="/projects" class="btn btn-secondary">Explore projects</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {{> footer}}
+  <script src="/js/rubber-text.js" defer></script>
+</body>
+</html>
+

@@ -1,0 +1,120 @@
+# S Mohammed Junaith
+
+> S Mohammed Junaith (Junaith) — Gameplay Programmer & Software Engineer specializing in zero-overhead web engines, low-latency protocols, and standards-compliant architectures.
+
+## Author Biography
+
+S Mohammed Junaith is a Computer Science Engineering student and software engineer based in Kanyakumari, Tamil Nadu, India. Junaith specializes in gameplay programming, low-level systems, high-performance web architecture, and embedded systems. With a strong engineering philosophy centered on first-principles understanding, Junaith designs and implements software with zero external runtime dependencies, minimal latency overhead, and strict adherence to open standards (W3C, WCAG 2.1 AA, ECMAScript).
+
+## Primary Pages
+
+- [Home](https://www.junaith.dev/): Engineering benchmarks, featured software projects, and interactive technical demonstrations.
+- [About](https://www.junaith.dev/about): Engineering philosophy, low-level systems background, and biographical profile.
+- [Projects](https://www.junaith.dev/projects): Comprehensive catalog of software systems, open-source repositories, and performance metrics.
+- [Contact](https://www.junaith.dev/contact): Direct communication channel for engineering roles, systems architecture inquiries, and latency profiling consultations.
+
+## Engineering Projects
+
+- [Holy Fraud](https://holyfraud.lycusstudios.in/): The game page for a first-person life sim where you run a fake astrology business. It has an intro animation, scroll effects, and background music.
+  - Live Showcase: https://holyfraud.lycusstudios.in/
+  - Repository: Private repository
+
+- [Nexus Gate](https://loginsystem-mu.vercel.app): A secure login system with safe token handling, built with React, Node.js, PostgreSQL, and Redis. It has a glassmorphism dashboard with 3D interactive cards.
+  - Tech Stack: React, Node.js, PostgreSQL, Redis, Glassmorphism, 3D Cards
+  - Live Showcase: https://loginsystem-mu.vercel.app
+  - Repository: https://github.com/JunaithSM/Nexus-Gate---Secure-Auth-Interactive-Dashboard
+
+- [Lycus Studios](https://www.lycusstudios.in/): The official site of an indie game studio, with a project showcase and careers page. It has an admin panel where HR can review job applications.
+  - Live Showcase: https://www.lycusstudios.in/
+  - Repository: Private repository
+
+- [Jarvis AI](https://jarvis-ai-eight-umber.vercel.app): An AI coding tutor in a clean, IDE-like space with a code editor and terminal. The AI mentor gives step-by-step hints so you learn instead of just getting answers. Built full React app and handled hosting with two teammates.
+  - Tech Stack: React, AI Coding Tutor, Code Editor, Web Terminal
+  - Live Showcase: https://jarvis-ai-eight-umber.vercel.app
+  - Repository: https://github.com/JunaithSM/jarvis-ai
+
+- [Air Attack Force](https://airattackforce.online/): A 2D mobile shooting game where you fight with teammates or play online against real players. Built with JavaScript, HTML, and CSS.
+  - Tech Stack: JavaScript, HTML5 Canvas, CSS3, Multiplayer Networking
+  - Live Showcase: https://airattackforce.online/
+  - Repository: https://github.com/JunaithSM/AirWar
+
+- [DSA Visualizer](https://dsa.junaith.dev): Watch 16 searching and sorting algorithms run step by step with live animation. Read the theory, write code in 18 languages, and learn with sound and a friendly mascot.
+  - Tech Stack: Interactive Algorithms, 18 Programming Languages, Audio FX, Visual Animation
+  - Live Showcase: https://dsa.junaith.dev
+  - Repository: https://github.com/JunaithSM/Algorithm-Visual
+
+- [Outlier Games](https://www.outliergames.io/): A cinematic dark-theme website for an Indian indie game studio. It has a game showcase with horizontal scroll, a contact form, and strong SEO.
+  - Live Showcase: https://www.outliergames.io/
+  - Repository: Private repository
+
+- [DriveNet Intelligence](https://drivenet-intelligence.vercel.app/): An AI system that identifies a car as a Sedan, SUV, or Hatchback from its photo. Next.js web application and hosting integration with a CNN classification model.
+  - Tech Stack: Next.js, CNN Image Classification, Cloud Deployment
+  - Live Showcase: https://drivenet-intelligence.vercel.app/
+  - Repository: https://github.com/JAR-Technologies/DriveNet-Intelligence-Frontend
+
+- [JunaithOS](https://github.com/JunaithSM/JunaithOS): A small hobby operating system built from scratch in C and x86 Assembly. It boots with GRUB and has a screen driver, keyboard input, and a simple command shell.
+  - Tech Stack: C, x86 Assembly, GRUB Bootloader, Kernel Drivers, Shell
+  - Repository: https://github.com/JunaithSM/JunaithOS
+
+- [PosttAI](https://github.com/JunaithSM/Posttai): An AI social media tool that schedules posts to Twitter/X, LinkedIn, Facebook, Instagram, and Reddit. Its Gemini AI helper writes captions and hashtags, and a dashboard tracks results.
+  - Tech Stack: Gemini AI, Social Media Scheduling, Multi-Platform APIs
+  - Repository: https://github.com/JunaithSM/Posttai
+
+- [Stack Up](https://github.com/JunaithSM/StackUp): A block-stacking game where you place blocks on top of each other until the stack slices down to zero. Implemented across JavaScript, Python, and C++.
+  - Tech Stack: JavaScript, Python, C++, Game Mechanics
+  - Repository: https://github.com/JunaithSM/StackUp
+
+- [HF Task Manager](https://junaithsm.github.io/hf_Tasks/): A simple task tracker built for a game development team to manage tasks and bugs. Data syncs live through Firebase, and it has dark and light themes, keyboard shortcuts, and CSV export.
+  - Tech Stack: Firebase Realtime Database, Vanilla JS, CSV Export, Keyboard Shortcuts
+  - Live Showcase: https://junaithsm.github.io/hf_Tasks/
+  - Repository: https://github.com/JunaithSM/hf_Tasks
+
+- [Dell G15 5530 Fan Controller](https://github.com/JunaithSM/Dell-G15-5530-fan-controller): A Linux tool to set fan speeds on the Dell G15 5530 laptop. The G-Key can also switch the fan profile.
+  - Tech Stack: Linux Kernel Interfaces, Hardware Control, Shell / C
+  - Repository: https://github.com/JunaithSM/Dell-G15-5530-fan-controller
+
+- [CS3492 DBMS Exam Companion](https://study-cse.vercel.app/): A study guide for the Anna University DBMS subject, made to help students revise quickly before exams.
+  - Tech Stack: Educational Web App, DBMS Revision Guides, Vercel
+  - Live Showcase: https://study-cse.vercel.app/
+  - Repository: https://github.com/JunaithSM/StudyCSE/tree/main/DBMS
+
+## Key Competencies
+
+### Core and Web Standards
+- Semantic HTML5
+- Modern CSS (Grid, Flexbox, custom properties)
+- Zero-JS UI patterns
+- Web accessibility (WCAG 2.1 AA)
+- SEO architecture
+- Core Web Vitals profiling
+
+### Engineering and Back-End
+- High-performance APIs
+- Distributed systems architecture
+- SQL and relational data modeling
+- Multi-tier cache stratification
+- POSIX shell scripting
+- Low-overhead network protocols
+
+### Infrastructure and Tooling
+- Zero-dependency static compilers
+- CI/CD build pipelines
+- Containerization and isolation
+- Edge routing (Cloudflare, Fastly)
+- Sub-millisecond latency profiling
+- Security hardening
+
+## Professional Experience
+
+- Freelance Developer at Freelancer.com (Mar 2023 — Jul 2024): Part-time freelance work in game development and JavaScript for clients. Remote.
+- Freelance Full-Stack Developer at Outlier Games (Aug 2026): Designed and developed the official website for Outlier Games, an independent game studio, using Next.js and TypeScript. Delivered a project showcase, contact form, and full SEO setup, improving the site's search visibility and social sharing.
+- Software Developer & Gameplay Programmer at Lycus Studios (Sep 2025 — Present): Full-stack development and game programming for an indie game studio. Built the studio website with an admin panel and the Holy Fraud game page. Remote.
+
+## Contact & Profiles
+
+- Canonical Website: https://www.junaith.dev
+- Email: hello@junaith.dev
+- GitHub: https://github.com/JunaithSM
+- LinkedIn: https://www.linkedin.com/in/mohammed-junaith-s-93b460334/
+- Instagram: https://www.instagram.com/s_mohammed_junaith/
+- Twitter: @junaith

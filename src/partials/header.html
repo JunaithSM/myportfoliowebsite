@@ -1,0 +1,135 @@
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Zero-JS State Controllers (Checkboxes) -->
+<input type="checkbox" id="theme-toggle" class="visually-hidden" aria-label="Toggle dark mode">
+
+<header class="site-header has-gap">
+  <input type="checkbox" id="nav-toggle" class="visually-hidden" aria-label="Toggle navigation menu">
+  
+  <div class="header-inner">
+    <a href="/" class="site-logo" aria-label="{{site.fullName}} ({{site.nickname}}) home">
+      <span class="site-logo-text">{{site.nickname}}</span>
+    </a>
+
+    <div class="header-right">
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul class="nav-list" role="list">
+          {{nav_links}}
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Dark / Light Mode Switch Button -->
+        <label for="theme-toggle" class="theme-switch-label" aria-label="Switch between light and dark theme" title="Toggle theme">
+          <!-- Sun icon (shown in dark mode to switch to light) -->
+          <svg class="icon-theme icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <!-- Moon icon (shown in light mode to switch to dark) -->
+          <svg class="icon-theme icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </label>
+
+        <!-- Mobile Navigation Hamburger & Close Morphing Toggle -->
+        <label for="nav-toggle" class="mobile-nav-toggle-label" aria-label="Toggle navigation menu" title="Toggle navigation">
+          <svg class="icon-nav icon-hamburger-morph" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line class="line-top" x1="4" y1="6" x2="20" y2="6"></line>
+            <line class="line-mid" x1="4" y1="12" x2="20" y2="12"></line>
+            <line class="line-bot" x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        </label>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Theme Synchronization & Storage Engine -->
+<script>
+  (function() {
+    try {
+      var toggle = document.getElementById('theme-toggle');
+      if (!toggle) return;
+      var doc = document.documentElement;
+      var isDark = doc.getAttribute('data-theme') === 'dark';
+      toggle.checked = isDark;
+
+      toggle.addEventListener('change', function() {
+        var theme = toggle.checked ? 'dark' : 'light';
+        doc.setAttribute('data-theme', theme);
+        try {
+          localStorage.setItem('theme', theme);
+        } catch (e) {}
+        var metaTheme = document.querySelector('meta[name="theme-color"]');
+        if (metaTheme) {
+          metaTheme.setAttribute('content', theme === 'dark' ? '#1C1714' : '{{site.themeColor}}');
+        }
+      });
+    } catch (e) {}
+  })();
+
+  // Adaptive Nav Gap Engine (Expands gap at top hero & Works & Projects state, reduces on scroll)
+  (function() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+
+    var ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          update();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    function update() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var track = document.getElementById('featured-projects-hero') || document.getElementById('featured-projects') || document.getElementById('featured-projects-pin-track');
+      var windowH = window.innerHeight;
+      var gapRatio = 0;
+
+      // 1. Hero top state
+      if (scrollY <= 80) {
+        gapRatio = Math.max(0, 1 - (scrollY / 80));
+      }
+
+      // 2. Works & Projects state: activates when Works & Projects settles into view at the top
+      if (track) {
+        var rect = track.getBoundingClientRect();
+        // Target activation zone: when rect.top is aligning with the header zone
+        if (rect.top >= 0 && rect.top <= 240) {
+          if (rect.top >= 60 && rect.top <= 140) {
+            gapRatio = 1;
+          } else if (rect.top > 140) {
+            gapRatio = (240 - rect.top) / (240 - 140);
+          } else {
+            gapRatio = rect.top / 60;
+          }
+          gapRatio = Math.max(0, Math.min(1, gapRatio));
+        }
+      }
+
+      if (gapRatio > 0.02) {
+        header.classList.add('has-gap');
+        header.style.setProperty('--nav-gap-mult', gapRatio);
+      } else {
+        header.classList.remove('has-gap');
+        header.style.removeProperty('--nav-gap-mult');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+</script>

@@ -1,0 +1,306 @@
+/* ==========================================================================
+   Structural Layout & Core Containers
+   - Typography: Flecha M (Headings) / Poppins (Others)
+   - Colors: #FFFAF3, #FFF2DB, #FFE5BF, #F62440
+   ========================================================================== */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+/* Fixed Full-Screen Background Canvas (Zero Layout Shift) */
+.turtle-canvas,
+.arrow-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 767px) {
+  .turtle-canvas,
+  .arrow-canvas {
+    display: none !important;
+  }
+}
+
+/* Accessibility: Skip to Content */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--s4);
+  padding: var(--s2) var(--s4);
+  background: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  border-radius: var(--r2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  z-index: 1000;
+  text-decoration: none;
+  transition: top var(--dur-fast) var(--ease);
+}
+
+.skip-link:focus {
+  top: var(--s4);
+  outline: none;
+}
+
+/* Container Constraints — Single max-width for content column */
+.container,
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--s4);
+}
+
+@media (min-width: 640px) {
+  .container,
+  .container-narrow {
+    padding-inline: var(--s6);
+  }
+}
+
+/* Header & Navigation Bar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  padding-top: 0px;
+  background-color: var(--color-bg);
+  border-bottom: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: height var(--dur-fast) var(--ease), padding-top var(--dur-fast) var(--ease);
+}
+
+.site-header.has-gap {
+  height: calc(var(--header-height) + calc(var(--s4) * var(--nav-gap-mult, 1)));
+  padding-top: calc(var(--s4) * var(--nav-gap-mult, 1));
+}
+
+@media (min-width: 768px) {
+  .site-header.has-gap {
+    height: calc(var(--header-height) + calc(var(--s8) * var(--nav-gap-mult, 1)));
+    padding-top: calc(var(--s8) * var(--nav-gap-mult, 1));
+  }
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding-inline: var(--s4);
+}
+
+@media (min-width: 640px) {
+  .header-inner {
+    padding-inline: var(--s6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-inner {
+    padding-inline: var(--s8);
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--s6);
+}
+
+/* Typographic Logo (Flecha M) */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  letter-spacing: -0.015em;
+}
+
+.site-logo-text {
+  font-family: var(--font-heading);
+}
+
+/* Navigation Links (Poppins) */
+.site-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  height: var(--s8); /* 32px */
+  padding-inline: var(--s3); /* 12px */
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: transparent;
+  border-radius: var(--r2);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--color-accent);
+  background-color: transparent;
+}
+
+.nav-link[aria-current="page"] {
+  color: var(--color-accent);
+  background-color: transparent;
+  font-weight: 600;
+}
+
+/* Header Controls Area */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+/* Main Content Area */
+.site-main {
+  flex: 1 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Section Rhythm */
+.section {
+  padding-block: var(--s8);
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-block: var(--s12);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-block: var(--s16);
+  }
+}
+
+.section-header {
+  margin-bottom: var(--s6);
+}
+
+@media (min-width: 640px) {
+  .section-header {
+    margin-bottom: var(--s8);
+  }
+}
+
+@media (max-width: 639px) {
+  .section-header.flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s4);
+  }
+}
+
+/* Section Titles (Flecha M) */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  line-height: 1.15;
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  margin-top: var(--s2);
+  font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  max-width: 58ch;
+  line-height: 1.55;
+}
+
+/* Footer Layout */
+.site-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  border-top: none;
+  padding-block: var(--s8);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footer-copy {
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+}
+
+.footer-copy time {
+  font-variant-numeric: tabular-nums;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+}
+
+.footer-link {
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: var(--color-accent);
+}

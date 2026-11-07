@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example 4: Loops & Dynamic Logic</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #1C1714;
+      color: #FFFAF3;
+      min-height: 300vh;
+    }
+    .intro {
+      padding: 60px 40px;
+      text-align: center;
+    }
+    .turtle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="intro">
+    <h1>Multi-Curve Loops & Wave Ribbons</h1>
+    <p>Scroll down to see parallel sinusoidal ribbons generated with a loop.</p>
+  </div>
+
+  <script src="../src/js/turtle-canvas.js"></script>
+  <script>
+    function animate({ width, height, getProgress, drawQuadratic }) {
+      const ribbonCount = 5;
+
+      for (let i = 0; i < ribbonCount; i++) {
+        // Stagger each ribbon's scroll trigger slightly
+        const p = getProgress(i * 120, 800 + i * 100);
+
+        if (p > 0) {
+          const yBase = height * 0.35 + i * 40;
+          const bend = (i % 2 === 0 ? -1 : 1) * 60;
+
+          drawQuadratic({
+            start:   { x: width * 0.1, y: yBase },
+            control: { x: width * 0.5, y: yBase + bend },
+            end:     { x: width * 0.9, y: yBase },
+            progress: p,
+            strokeWidth: 2,
+            strokeColor: `hsl(${350 + i * 15}, 85%, 60%)`,
+            moveWithScroll: false,
+            arrow: true
+          });
+        }
+      }
+    }
+  </script>
+</body>
+</html>
+

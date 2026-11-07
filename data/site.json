@@ -1,0 +1,289 @@
+{
+  "site": {
+    "name": "S Mohammed Junaith",
+    "fullName": "S Mohammed Junaith",
+    "nickname": "Junaith",
+    "title": "S Mohammed Junaith (Junaith) — Game Developer & Software Engineer",
+    "description": "Portfolio and engineering benchmarks of S Mohammed Junaith (Junaith): Software engineer specializing in zero-overhead web engines, low-latency protocols, and standards-compliant architectures.",
+    "url": "https://www.junaith.dev",
+    "author": "S Mohammed Junaith",
+    "email": "hello@junaith.dev",
+    "locale": "en_US",
+    "twitter": "@junaith",
+    "github": "https://github.com/JunaithSM",
+    "linkedin": "https://www.linkedin.com/in/mohammed-junaith-s-93b460334/",
+    "instagram": "https://www.instagram.com/s_mohammed_junaith/",
+    "themeColor": "#FFFAF3",
+    "themeColorDark": "#1C1714",
+    "nav": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About",
+        "href": "/about"
+      },
+      {
+        "label": "Projects",
+        "href": "/projects"
+      },
+      {
+        "label": "Contact",
+        "href": "/contact"
+      }
+    ]
+  },
+  "hero": {
+    "role": "Game Developer &\nSoftware Engineer",
+    "tagline": "I'm a Computer Science Engineering student,<br>aspiring Software Engineer & Game Developer.",
+    "ctaPrimary": {
+      "label": "Explore projects",
+      "href": "/projects"
+    },
+    "ctaSecondary": {
+      "label": "Let's connect",
+      "href": "/contact"
+    }
+  },
+  "about": {
+    "title": "S Mohammed Junaith",
+    "paragraphs": [
+      "I’m Junaith, a Computer Science student from Kanyakumari, Tamil Nadu. I build websites, games, and embedded systems, and I learn by making things.",
+      "I like to understand how things work underneath, not just use them. When I learn something new, I try to build it myself, step by step, until I really get it. I like to plan the design first, then write the code, then improve it after feedback.",
+      "My work covers many areas: web development, game programming, hardware, and low-level systems. I enjoy moving between them because each one teaches me something that helps the others.",
+      "I work with clients and teams, so I care about clear communication and finishing what I start. I also like learning new languages, both programming languages and human ones.",
+      "Right now, I’m growing my skills to become a strong software engineer, with a special love for game development. I enjoy the logic behind how a game feels to play, and I want to bring the same clean engineering to everything I build."
+    ]
+  },
+  "projectsSection": {
+    "title": "Works & Projects"
+  },
+  "projects": [
+    {
+      "id": "project-holy-fraud",
+      "title": "Holy Fraud",
+      "description": "The game page for a first-person life sim where you run a fake astrology business. Built with Next.js, it has a clean UI, an intro animation, scroll effects, and background music.",
+      "liveUrl": "https://holyfraud.lycusstudios.in/",
+      "repoUrl": null,
+      "featured": false
+    },
+    {
+      "id": "project-nexus-gate",
+      "title": "Nexus Gate",
+      "description": "A secure login system with safe token handling, built with React, Node.js, PostgreSQL, and Redis. It has a glassmorphism dashboard with 3D interactive cards.",
+      "liveUrl": "https://loginsystem-mu.vercel.app",
+      "repoUrl": "https://github.com/JunaithSM/Nexus-Gate---Secure-Auth-Interactive-Dashboard",
+      "featured": true,
+      "featuredOrder": 1
+    },
+    {
+      "id": "project-code-with-everyone",
+      "title": "Code With Everyone",
+      "description": "A browser-based JavaScript editor where many people code together live. You see each other's edits and cursors in real time, and you can run the code and see the output. Built with Node.js, Express, and Socket.IO.",
+      "liveUrl": "https://codewitheveryone.onrender.com/",
+      "repoUrl": "https://github.com/JunaithSM/codewitheveryone",
+      "featured": false
+    },
+    {
+      "id": "project-panzer-assault",
+      "title": "Panzer Assault",
+      "description": "A multiplayer tank game that runs in your browser. Log in, move your tank, shoot, chat, and fight other players in real time. Built with Node.js, Express, and Socket.IO.",
+      "liveUrl": "https://panzer-assult.onrender.com",
+      "repoUrl": "https://github.com/JunaithSM/Panzer-Assault-",
+      "featured": false
+    },
+    {
+      "id": "project-atlantino",
+      "title": "Atlantino",
+      "description": "A samurai-themed platform game that runs in your browser, called \"Tales of samurai\". I made it in my school days to learn game development. Built with Node.js, Express, and Socket.IO.",
+      "liveUrl": "https://amaurus.onrender.com/",
+      "repoUrl": "https://github.com/JunaithSM/Atlantino",
+      "featured": false
+    },
+    {
+      "id": "project-lycus-studios",
+      "title": "Lycus Studios",
+      "description": "The official website of an indie game studio, with a game showcase, careers page, and newsletter. I built a full admin panel to manage projects, team, media, contacts, and site settings.",
+      "liveUrl": "https://www.lycusstudios.in/",
+      "repoUrl": null,
+      "featured": false
+    },
+    {
+      "id": "project-jarvis-ai",
+      "title": "Jarvis AI",
+      "description": "An AI coding tutor in a clean, IDE-like space with a code editor and terminal. The AI mentor gives step-by-step hints so you learn instead of just getting answers. I built the full React app and handled hosting, with two teammates.",
+      "liveUrl": "https://jarvis-ai-eight-umber.vercel.app",
+      "repoUrl": "https://github.com/JunaithSM/jarvis-ai",
+      "featured": true,
+      "featuredOrder": 3
+    },
+    {
+      "id": "project-air-attack-force",
+      "title": "Air Attack Force",
+      "description": "A 2D mobile shooting game where you fight with teammates or play online against real players. Built with JavaScript, HTML, and CSS.",
+      "liveUrl": "https://airwar.onrender.com/",
+      "repoUrl": "https://github.com/JunaithSM/AirWar",
+      "featured": true,
+      "featuredOrder": 2
+    },
+    {
+      "id": "project-dsa-visualizer",
+      "title": "DSA Visualizer",
+      "description": "Watch 16 searching and sorting algorithms run step by step with live animation. Read the theory, write code in 18 languages, and learn with sound and a friendly mascot.",
+      "liveUrl": "https://dsa.junaith.dev",
+      "repoUrl": "https://github.com/JunaithSM/Algorithm-Visual",
+      "featured": false
+    },
+    {
+      "id": "project-outlier-games",
+      "title": "Outlier Games",
+      "description": "A cinematic dark-theme website for an Indian indie game studio. It has a game showcase with horizontal scroll, a contact form, and strong SEO.",
+      "liveUrl": "https://www.outliergames.io/",
+      "repoUrl": null,
+      "featured": false
+    },
+    {
+      "id": "project-drivenet-intelligence",
+      "title": "DriveNet Intelligence",
+      "description": "An AI system that identifies a car as a Sedan, SUV, or Hatchback from its photo. I built the full Next.js website and handled hosting, and my friend built the CNN model.",
+      "liveUrl": "https://drivenet-intelligence.vercel.app/",
+      "repoUrl": "https://github.com/JAR-Technologies/DriveNet-Intelligence-Frontend",
+      "featured": false
+    },
+    {
+      "id": "project-junaithos",
+      "title": "JunaithOS",
+      "description": "A small hobby operating system built from scratch in C and x86 Assembly. It boots with GRUB and has a screen driver, keyboard input, and a simple command shell.",
+      "liveUrl": "https://github.com/JunaithSM/JunaithOS",
+      "repoUrl": "https://github.com/JunaithSM/JunaithOS",
+      "featured": false
+    },
+    {
+      "id": "project-posttai",
+      "title": "PosttAI",
+      "description": "An AI social media tool that schedules posts to Twitter/X, LinkedIn, Facebook, Instagram, and Reddit. Its Gemini AI helper writes captions and hashtags, and a dashboard tracks results.",
+      "liveUrl": "https://github.com/JunaithSM/Posttai",
+      "repoUrl": "https://github.com/JunaithSM/Posttai",
+      "featured": false
+    },
+    {
+      "id": "project-stack-up",
+      "title": "Stack Up",
+      "description": "A block-stacking game where you place blocks on top of each other until the stack slices down to zero. I built the same game in JavaScript, Python, and C++ to test my skills.",
+      "liveUrl": "https://github.com/JunaithSM/StackUp",
+      "repoUrl": "https://github.com/JunaithSM/StackUp",
+      "featured": false
+    },
+    {
+      "id": "project-hf-task-manager",
+      "title": "HF Task Manager",
+      "description": "A simple task tracker I built for a game development team to manage tasks and bugs. Data syncs live through Firebase, and it has dark and light themes, keyboard shortcuts, and CSV export.",
+      "liveUrl": "https://junaithsm.github.io/hf_Tasks/",
+      "repoUrl": "https://github.com/JunaithSM/hf_Tasks",
+      "featured": false
+    },
+    {
+      "id": "project-dell-g15-fan-controller",
+      "title": "Dell G15 5530 Fan Controller",
+      "description": "A Linux tool to set fan speeds on the Dell G15 5530 laptop. The G-Key can also switch the fan profile. Use at your own risk.",
+      "liveUrl": "https://github.com/JunaithSM/Dell-G15-5530-fan-controller",
+      "repoUrl": "https://github.com/JunaithSM/Dell-G15-5530-fan-controller",
+      "featured": false
+    },
+    {
+      "id": "project-outlier-games",
+      "title": "Outlier Games",
+      "description": "A cinematic dark-theme website for an Indian indie game studio. It has a game showcase with horizontal scroll, a contact form, and strong SEO.",
+      "liveUrl": "https://www.outliergames.io/",
+      "repoUrl": null,
+      "featured": false
+    },
+    {
+      "id": "project-drivenet-intelligence",
+      "title": "DriveNet Intelligence",
+      "description": "An AI system that identifies a car as a Sedan, SUV, or Hatchback from its photo. I built the full Next.js website and handled hosting, and my friend built the CNN model.",
+      "liveUrl": "https://drivenet-intelligence.vercel.app/",
+      "repoUrl": "https://github.com/JAR-Technologies/DriveNet-Intelligence-Frontend",
+      "featured": false
+    },
+    {
+      "id": "project-junaithos",
+      "title": "JunaithOS",
+      "description": "A small hobby operating system built from scratch in C and x86 Assembly. It boots with GRUB and has a screen driver, keyboard input, and a simple command shell.",
+      "liveUrl": "https://github.com/JunaithSM/JunaithOS",
+      "repoUrl": "https://github.com/JunaithSM/JunaithOS",
+      "featured": false
+    },
+    {
+      "id": "project-posttai",
+      "title": "PosttAI",
+      "description": "An AI social media tool that schedules posts to Twitter/X, LinkedIn, Facebook, Instagram, and Reddit. Its Gemini AI helper writes captions and hashtags, and a dashboard tracks results.",
+      "liveUrl": "https://github.com/JunaithSM/Posttai",
+      "repoUrl": "https://github.com/JunaithSM/Posttai",
+      "featured": false
+    },
+    {
+      "id": "project-stack-up",
+      "title": "Stack Up",
+      "description": "A block-stacking game where you place blocks on top of each other until the stack slices down to zero. I built the same game in JavaScript, Python, and C++ to test my skills.",
+      "liveUrl": "https://github.com/JunaithSM/StackUp",
+      "repoUrl": "https://github.com/JunaithSM/StackUp",
+      "featured": false
+    },
+    {
+      "id": "project-hf-task-manager",
+      "title": "HF Task Manager",
+      "description": "A simple task tracker I built for a game development team to manage tasks and bugs. Data syncs live through Firebase, and it has dark and light themes, keyboard shortcuts, and CSV export.",
+      "liveUrl": "https://junaithsm.github.io/hf_Tasks/",
+      "repoUrl": "https://github.com/JunaithSM/hf_Tasks",
+      "featured": false
+    },
+    {
+      "id": "project-dell-g15-fan-controller",
+      "title": "Dell G15 5530 Fan Controller",
+      "description": "A Linux tool to set fan speeds on the Dell G15 5530 laptop. The G-Key can also switch the fan profile. Use at your own risk.",
+      "liveUrl": "https://github.com/JunaithSM/Dell-G15-5530-fan-controller",
+      "repoUrl": "https://github.com/JunaithSM/Dell-G15-5530-fan-controller",
+      "featured": false
+    },
+    {
+      "id": "project-cs3492-dbms-companion",
+      "title": "CS3492 DBMS Exam Companion",
+      "description": "A study guide for the Anna University DBMS subject, made to help you revise quickly before exams.",
+      "liveUrl": "https://study-cse.vercel.app/",
+      "repoUrl": "https://github.com/JunaithSM/StudyCSE/tree/main/DBMS",
+      "featured": false
+    }
+  ],
+  "experienceSection": {
+    "title": "My Experience",
+    "subtitle": "A progression of architecting reliable, high-efficiency digital systems."
+  },
+  "experience": [
+    {
+      "period": "Mar 2023 — Jul 2024",
+      "role": "Freelance Developer",
+      "company": "Freelancer.com",
+      "description": "Part-time freelance work in game development and JavaScript for clients. Remote."
+    },
+    {
+      "period": "Aug 2026",
+      "role": "Freelance Full-Stack Developer",
+      "company": "Outlier Games",
+      "description": "Designed and developed the official website for Outlier Games, an independent game studio, using Next.js and TypeScript. Delivered a project showcase, contact form, and full SEO setup, improving the site's search visibility and social sharing."
+    },
+    {
+      "period": "Sep 2025 — Present",
+      "role": "Software Developer &\n  Gameplay Programmer",
+      "company": "Lycus Studios",
+      "description": "Full-stack development and game programming for an indie game studio. Built the studio website with an admin panel and the Holy Fraud game page. Remote."
+    }
+  ],
+  "contact": {
+    "title": "Let's connect",
+    "subtitle": "Systems architecture inquiries, latency profiling, and engineering roles.",
+    "formTitle": "Direct message",
+    "formButton": "Send message"
+  }
+}

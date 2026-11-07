@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Soft Elevation Shadow -->
+  <path d="M11 6C9.9 6 9 6.9 9 8V15.5L7.8 14.3C6.7 13.2 4.9 13.2 3.8 14.3C2.7 15.4 2.7 17.2 3.8 18.3L9.2 23.7C10.7 25.2 12.8 26 15 26H18C21.3 26 24 23.3 24 20V12C24 10.9 23.1 10 22 10C21.7 10 21.4 10.1 21.2 10.2C20.8 9.1 19.8 8.5 18.7 8.5C18.4 8.5 18.1 8.6 17.8 8.7C17.4 7.7 16.4 7 15.2 7C14.9 7 14.6 7.1 14.3 7.2V8C14.3 6.9 13.4 6 12.3 6H11Z" fill="#1C1714" fill-opacity="0.2" stroke="#1C1714" stroke-opacity="0.2" stroke-width="1.5" stroke-linejoin="round" transform="translate(1, 1.5)"/>
+  <!-- Pure Crimson Open Hand (No Outline) -->
+  <path d="M11 6C9.9 6 9 6.9 9 8V15.5L7.8 14.3C6.7 13.2 4.9 13.2 3.8 14.3C2.7 15.4 2.7 17.2 3.8 18.3L9.2 23.7C10.7 25.2 12.8 26 15 26H18C21.3 26 24 23.3 24 20V12C24 10.9 23.1 10 22 10C21.7 10 21.4 10.1 21.2 10.2C20.8 9.1 19.8 8.5 18.7 8.5C18.4 8.5 18.1 8.6 17.8 8.7C17.4 7.7 16.4 7 15.2 7C14.9 7 14.6 7.1 14.3 7.2V8C14.3 6.9 13.4 6 12.3 6H11Z" fill="#F62440" stroke="#F62440" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

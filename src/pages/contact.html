@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{> head}}
+</head>
+<body>
+  {{> header}}
+
+  <main id="main-content" class="site-main">
+    <!-- Full-Width Hero Section -->
+    <header class="contact-hero" id="contact-hero">
+      <h1 class="contact-title rubber-title is-revealed" aria-label="{{contact.title}}" data-rubber-init="true">
+        {{contact_title_letters}}
+      </h1>
+    </header>
+
+    <div class="container container-narrow">
+      <div class="contact-layout">
+        <!-- Direct Channels -->
+        <section aria-labelledby="direct-channels-title">
+          <h2 id="direct-channels-title" class="visually-hidden">Direct communication channels</h2>
+          <div class="contact-channels-bar">
+            <a href="mailto:{{site.email}}" class="channel-icon-btn" aria-label="Direct email">
+              <svg class="channel-icon-svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </a>
+            <a href="{{site.github}}" target="_blank" rel="noopener noreferrer" class="channel-icon-btn" aria-label="GitHub profile">
+              <svg class="channel-icon-svg" width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+              </svg>
+            </a>
+            <a href="{{site.linkedin}}" target="_blank" rel="noopener noreferrer" class="channel-icon-btn" aria-label="LinkedIn profile">
+              <svg class="channel-icon-svg" width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"></path>
+              </svg>
+            </a>
+            <a href="{{site.instagram}}" target="_blank" rel="noopener noreferrer" class="channel-icon-btn" aria-label="Instagram profile">
+              <svg class="channel-icon-svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </a>
+          </div>
+        </section>
+
+        <!-- Zero-JS Accessible Contact Form with Client-Side Validation Enhancement -->
+        <section aria-labelledby="form-heading">
+          <h2 id="form-heading" class="visually-hidden">{{contact.formTitle}}</h2>
+          
+          <form class="contact-form" id="contact-form" action="mailto:{{site.email}}" method="GET" enctype="text/plain" novalidate>
+            <div class="form-group">
+              <label for="name" class="form-label">Full name <span aria-hidden="true" class="text-accent">*</span></label>
+              <input type="text" id="name" name="name" class="form-input" required minlength="2" maxlength="100" placeholder="Your full name" autocomplete="name" aria-describedby="name-error">
+              <span class="form-error" id="name-error" role="alert" aria-live="polite"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email address <span aria-hidden="true" class="text-accent">*</span></label>
+              <input type="email" id="email" name="email" class="form-input" required maxlength="120" placeholder="you@company.com" autocomplete="email" aria-describedby="email-error">
+              <span class="form-error" id="email-error" role="alert" aria-live="polite"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="subject" class="form-label">Subject</label>
+              <input type="text" id="subject" name="subject" class="form-input" maxlength="120" placeholder="How can I help you?">
+            </div>
+
+            <div class="form-group">
+              <label for="body" class="form-label">Message <span aria-hidden="true" class="text-accent">*</span></label>
+              <textarea id="body" name="body" class="form-textarea" required minlength="10" maxlength="1000" placeholder="Tell me about your project, goals, and timeline..." aria-describedby="body-error char-counter"></textarea>
+              <div class="form-meta">
+                <span class="form-error" id="body-error" role="alert" aria-live="polite"></span>
+                <span class="char-counter" id="char-counter" aria-live="polite"><span id="char-count">0</span> / 1000</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit" id="submit-btn" disabled>
+              {{contact.formButton}}
+            </button>
+            <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  {{> footer}}
+
+  <!-- Contact Form Validation & Character Limit Engine -->
+  <script src="/js/contact-form.js" defer></script>
+  <!-- Rubber Squash Animation Engine (Active across all devices) -->
+  <script src="/js/rubber-text.js" defer></script>
+  <!-- Desktop-Only Interactive Arrow Canvas Engine (Skipped on mobile) -->
+  <script>
+    if (window.innerWidth >= 768) {
+      ['/js/arrow-config.js', '/js/turtle-canvas.js'].forEach(function(src) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = false;
+        document.body.appendChild(s);
+      });
+    }
+  </script>
+</body>
+</html>

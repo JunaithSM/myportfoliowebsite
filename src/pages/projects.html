@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{> head}}
+</head>
+<body>
+  {{> header}}
+
+  <main id="main-content" class="site-main">
+    <!-- Full-Width Hero Section -->
+    <header class="featured-projects-hero" id="featured-projects-hero">
+      <h1 class="featured-projects-title rubber-title is-revealed" aria-label="{{projects.title}}" data-rubber-init="true">
+        {{projects_title_letters}}
+      </h1>
+    </header>
+
+    <div class="container">
+      <section class="section" aria-label="Project Catalog">
+        <h2 class="visually-hidden">Projects Catalog</h2>
+        <div class="projects-list">
+          {{all_projects}}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  {{> footer}}
+
+  <!-- Rubber Squash Animation Engine (Active across all devices) -->
+  <script src="/js/rubber-text.js" defer></script>
+  <!-- Desktop-Only Interactive Arrow Canvas Engine (Skipped on mobile) -->
+  <script>
+    if (window.innerWidth >= 768) {
+      ['/js/arrow-config.js', '/js/turtle-canvas.js'].forEach(function(src) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = false;
+        document.body.appendChild(s);
+      });
+    }
+  </script>
+</body>
+</html>

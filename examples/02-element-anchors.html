@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example 2: Element Anchors (No Magic Numbers)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #FFFAF3;
+      color: #1C1714;
+      min-height: 300vh;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    .spacer { height: 40vh; }
+    .card {
+      max-width: 500px;
+      margin: 40vh auto;
+      padding: 30px;
+      background: #FFF2DB;
+      border-radius: 12px;
+      border: 1px solid #FFE5BF;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .turtle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card-alpha">
+    <h2>Card Alpha</h2>
+    <p>The curve starts anchored directly to this card's right edge.</p>
+  </div>
+
+  <div class="card" id="card-beta">
+    <h2>Card Beta</h2>
+    <p>The curve ends anchored directly to this card's left edge.</p>
+  </div>
+
+  <script src="../src/js/turtle-canvas.js"></script>
+  <script>
+    function animate({ width, getProgress, getElementY, pointAt, drawCubic }) {
+      // Trigger scroll between card-alpha and card-beta
+      const startY = getElementY('#card-alpha', 'center');
+      const endY   = getElementY('#card-beta', 'center');
+      const progress = getProgress(startY - 200, endY - 100);
+
+      if (progress > 0) {
+        // Dynamic element anchors (recalculates automatically if DOM resizes)
+        const pStart = pointAt('#card-alpha', 1.0, 0.5); // Right center of card alpha
+        const pEnd   = pointAt('#card-beta', 0.0, 0.5);   // Left center of card beta
+
+        drawCubic({
+          start: pStart,
+          cp1:   { x: pStart.x + 150, y: pStart.y + 100 },
+          cp2:   { x: pEnd.x - 150,   y: pEnd.y - 100 },
+          end:   pEnd,
+          progress: progress,
+          strokeWidth: 3,
+          strokeColor: '#F62440',
+          moveWithScroll: true, // Crucial: moves with page content!
+          arrow: true
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+

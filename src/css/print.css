@@ -1,0 +1,69 @@
+/* ==========================================================================
+   Print Stylesheet — Clean, High-Contrast Document Output
+   ========================================================================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.4;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  /* Hide Interactive and Navigation Chrome */
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .theme-switch-label,
+  .mobile-nav-toggle-label,
+  .btn,
+  .hero-actions,
+  .contact-form {
+    display: none !important;
+  }
+
+  .site-main {
+    padding-block: 0 !important;
+  }
+
+  .container,
+  .container-narrow {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Display link destination URLs in print */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555555;
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+
+  /* Prevent page breaks inside cards */
+  .project-card,
+  .experience-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #cccccc !important;
+    margin-bottom: 1rem !important;
+  }
+
+  h1, h2, h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
+

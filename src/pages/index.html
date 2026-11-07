@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{> head}}
+</head>
+<body>
+  {{> header}}
+
+  <main id="main-content" class="site-main">
+    <!-- Hero Section -->
+    <section class="section hero" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero-content">
+          <h1 id="hero-heading" class="hero-title rubber-title is-revealed" aria-label="{{hero.role}}" data-rubber-init="true">
+            {{hero_role_letters}}
+          </h1>
+          <p class="hero-lead">
+            {{hero.tagline}}
+          </p>
+          <div class="hero-actions">
+            <a href="{{hero.ctaPrimary.href}}" class="btn btn-primary">{{hero.ctaPrimary.label}}</a>
+            <a href="{{hero.ctaSecondary.href}}" class="btn btn-secondary">{{hero.ctaSecondary.label}}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section featured-projects-section" id="featured-projects" aria-labelledby="featured-projects-title">
+      <header class="featured-projects-hero" id="featured-projects-hero">
+        <h2 id="featured-projects-title" class="featured-projects-title rubber-title" aria-label="{{projects.title}}" data-rubber-init="true">
+          {{projects_title_letters}}
+        </h2>
+      </header>
+      <div class="container projects-container">
+        <div class="projects-list">
+          {{featured_projects}}
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Experience Section (Pinned Horizontal Stream on desktop, clean vertical list on mobile) -->
+    <section class="section experience-section" id="experience" aria-labelledby="experience-title">
+      <div class="experience-pin-track" id="experience-pin-track">
+        <div class="experience-sticky-viewport">
+          <div class="container experience-header">
+            <h2 id="experience-title" class="experience-title rubber-title">{{experience.title}}</h2>
+            <p class="experience-subtitle">{{experience.subtitle}}</p>
+          </div>
+          <div class="experience-stage-wrap">
+            <div class="experience-stage" id="experience-stage">
+              {{experience_timeline}}
+              <button type="button" class="experience-back-to-top" id="experience-back-to-top" aria-label="Go back to top">
+                <span class="back-to-top-text">Back to top</span>
+                <span class="back-to-top-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {{> footer}}
+  <!-- Rubber Squash Animation Engine (Active across all devices) -->
+  <script src="/js/rubber-text.js" defer></script>
+  <!-- Desktop-Only Interactive Arrow Canvas Engine (Skipped on mobile) -->
+  <script>
+    if (window.innerWidth >= 768) {
+      ['/js/arrow-config.js', '/js/turtle-canvas.js'].forEach(function(src) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = false;
+        document.body.appendChild(s);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example 1: Basic Hero Curve</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #FFFAF3;
+      color: #1C1714;
+      min-height: 250vh; /* Scrollable space */
+    }
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    .hero p { color: #574B45; font-size: 1.25rem; }
+    .turtle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>Scroll Down</h1>
+    <p>Watch the arrow sweep smoothly across the fixed viewport.</p>
+  </div>
+
+  <!-- Engine & Custom Logic -->
+  <script src="../src/js/turtle-canvas.js"></script>
+  <script>
+    function animate({ width, height, getProgress, drawQuadratic }) {
+      const progress = getProgress(0, 600); // 0.0 to 1.0 between 0px and 600px
+
+      if (progress > 0) {
+        drawQuadratic({
+          start:   { x: width * 0.10, y: height * 0.25 },
+          control: { x: width * 0.50, y: height * 0.08 },
+          end:     { x: width * 0.90, y: height * 0.45 },
+          progress: progress,
+          strokeWidth: 3,
+          strokeColor: '#F62440',
+          moveWithScroll: false, // Fixed on screen
+          arrow: true
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+
