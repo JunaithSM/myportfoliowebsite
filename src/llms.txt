@@ -11,7 +11,7 @@ S Mohammed Junaith is a Computer Science Engineering student and software engine
 - [Home](https://www.junaith.dev/): Engineering benchmarks, featured software projects, and interactive technical demonstrations.
 - [About](https://www.junaith.dev/about): Engineering philosophy, low-level systems background, and biographical profile.
 - [Projects](https://www.junaith.dev/projects): Comprehensive catalog of software systems, open-source repositories, and performance metrics.
-- [Contact](https://www.junaith.dev/contact): Direct communication channel for engineering roles, systems architecture inquiries, and latency profiling consultations.
+- [Contact](https://www.junaith.dev/contact): Direct communication channel for game development, gameplay programming, and software engineering roles.
 
 ## Engineering Projects
 

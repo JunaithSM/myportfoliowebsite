@@ -1,7 +1,7 @@
 {
   "name": "junaith-portfolio",
   "version": "1.0.0",
-  "description": "High-performance systems architect portfolio with interactive scroll canvas arrow engine",
+  "description": "Portfolio of S Mohammed Junaith — Game Developer, Gameplay Programmer & Software Engineer with interactive scroll canvas arrow engine",
   "main": "src/js/turtle-canvas.js",
   "types": "src/js/turtle-canvas.d.ts",
   "scripts": {

@@ -56,26 +56,26 @@ function build() {
   // Page-Specific SEO Metadata Map
   const pageMeta = {
     'index.html': {
-      title: `${data.site.fullName} (${data.site.nickname}) - Systems Architect & Software Engineer`,
+      title: `${data.site.fullName} (${data.site.nickname}) - Game Developer & Software Engineer`,
       description: data.site.description,
       canonical: `${data.site.url}/`,
       robots: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
     },
     'about.html': {
-      title: `About ${data.site.fullName} (${data.site.nickname}) - Systems Architect`,
-      description: `Engineering background, architectural principles, zero-bloat systems, and career record of ${data.site.fullName}.`,
+      title: `About ${data.site.fullName} (${data.site.nickname}) - Game Developer & Gameplay Programmer`,
+      description: `Engineering background, game development, gameplay programming, and career record of ${data.site.fullName}.`,
       canonical: `${data.site.url}/about`,
       robots: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
     },
     'projects.html': {
-      title: `Engineering Projects - ${data.site.fullName} (${data.site.nickname})`,
-      description: `Software engineering and gameplay programming projects by ${data.site.fullName}: Nexus Gate, Air Attack Force, Jarvis AI, Holy Fraud, and interactive systems.`,
+      title: `Projects - ${data.site.fullName} (${data.site.nickname}) - Game Developer & Software Engineer`,
+      description: `Game development, gameplay programming, and software engineering projects by ${data.site.fullName}: Nexus Gate, Air Attack Force, Jarvis AI, Holy Fraud, and interactive systems.`,
       canonical: `${data.site.url}/projects`,
       robots: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
     },
     'contact.html': {
-      title: `Contact ${data.site.fullName} (${data.site.nickname}) - Architecture Consultations`,
-      description: `Get in touch with ${data.site.fullName} (${data.site.nickname}) for systems architecture consultations, latency profiling, and engineering roles.`,
+      title: `Contact ${data.site.fullName} (${data.site.nickname}) - Game Developer & Software Engineer`,
+      description: `Get in touch with ${data.site.fullName} (${data.site.nickname}) for game development, gameplay programming, and software engineering roles.`,
       canonical: `${data.site.url}/contact`,
       robots: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
     },

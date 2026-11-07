@@ -41,35 +41,35 @@ function Build-Site {
 
     # Page-Specific SEO Metadata Map
     $PageMeta = @{
-        "index.html" = @{
-            title = "$($Data.site.fullName) ($($Data.site.nickname)) - Systems Architect & Software Engineer"
+        "index.html"    = @{
+            title       = "$($Data.site.fullName) ($($Data.site.nickname)) - Game Developer & Software Engineer"
             description = "$($Data.site.description)"
-            canonical = "$($Data.site.url)/"
-            robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+            canonical   = "$($Data.site.url)/"
+            robots      = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
         }
-        "about.html" = @{
-            title = "About $($Data.site.fullName) ($($Data.site.nickname)) - Systems Architect"
-            description = "Engineering background, architectural principles, zero-bloat systems, and career record of $($Data.site.fullName)."
-            canonical = "$($Data.site.url)/about"
-            robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+        "about.html"    = @{
+            title       = "About $($Data.site.fullName) ($($Data.site.nickname)) - Game Developer & Gameplay Programmer"
+            description = "Engineering background, game development, gameplay programming, and career record of $($Data.site.fullName)."
+            canonical   = "$($Data.site.url)/about"
+            robots      = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
         }
         "projects.html" = @{
-            title = "Engineering Projects - $($Data.site.fullName) ($($Data.site.nickname))"
-            description = "Software engineering and gameplay programming projects by $($Data.site.fullName): Nexus Gate, Air Attack Force, Jarvis AI, Holy Fraud, and interactive systems."
-            canonical = "$($Data.site.url)/projects"
-            robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+            title       = "Projects - $($Data.site.fullName) ($($Data.site.nickname)) - Game Developer & Software Engineer"
+            description = "Game development, gameplay programming, and software engineering projects by $($Data.site.fullName): Nexus Gate, Air Attack Force, Jarvis AI, Holy Fraud, and interactive systems."
+            canonical   = "$($Data.site.url)/projects"
+            robots      = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
         }
-        "contact.html" = @{
-            title = "Contact $($Data.site.fullName) ($($Data.site.nickname)) - Architecture Consultations"
-            description = "Get in touch with $($Data.site.fullName) ($($Data.site.nickname)) for systems architecture consultations, latency profiling, and engineering roles."
-            canonical = "$($Data.site.url)/contact"
-            robots = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+        "contact.html"  = @{
+            title       = "Contact $($Data.site.fullName) ($($Data.site.nickname)) - Game Developer & Software Engineer"
+            description = "Get in touch with $($Data.site.fullName) ($($Data.site.nickname)) for game development, gameplay programming, and software engineering roles."
+            canonical   = "$($Data.site.url)/contact"
+            robots      = "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
         }
-        "404.html" = @{
-            title = "404 Not Found - $($Data.site.fullName)"
+        "404.html"      = @{
+            title       = "404 Not Found - $($Data.site.fullName)"
             description = "The requested resource could not be found."
-            canonical = ""
-            robots = "noindex, follow"
+            canonical   = ""
+            robots      = "noindex, follow"
         }
     }
 
@@ -126,10 +126,12 @@ function Build-Site {
                     $fs.Write($bytes, 0, $bytes.Length)
                     $written = $true
                     break
-                } finally {
+                }
+                finally {
                     $fs.Dispose()
                 }
-            } catch {
+            }
+            catch {
                 Start-Sleep -Milliseconds 50
             }
         }
@@ -185,7 +187,8 @@ function Build-Site {
         $cards = @()
         $list = if ($FeaturedOnly) {
             $Data.projects | Where-Object { $_.featured -eq $true } | Sort-Object { if ($_.featuredOrder) { [int]$_.featuredOrder } else { 99 } }
-        } else {
+        }
+        else {
             $Data.projects
         }
         foreach ($p in $list) {
@@ -233,7 +236,8 @@ function Build-Site {
             $descHtml = if ($exp.description) {
                 $descWithBr = $exp.description -replace "\r?\n", "<br>"
                 "<p class=`"experience-desc`">$descWithBr</p>"
-            } else { "" }
+            }
+            else { "" }
             $items += @"
         <article class="experience-float-item$isAct" data-index="$idx" data-year="$($exp.period)" aria-label="$cleanRole at $($exp.company) ($($exp.period))">
           <div class="experience-meta-mobile">
@@ -272,22 +276,22 @@ function Build-Site {
         if ($Data.site.instagram) { $socialLinks += $Data.site.instagram }
 
         $personEntity = [ordered]@{
-            "@type" = "Person"
-            "@id" = "$siteUrl/#person"
-            "name" = [string]$Data.site.fullName
+            "@type"         = "Person"
+            "@id"           = "$siteUrl/#person"
+            "name"          = [string]$Data.site.fullName
             "alternateName" = [string]$Data.site.nickname
-            "url" = $siteUrl
-            "jobTitle" = [string]$Data.hero.role
-            "sameAs" = @($socialLinks)
-            "knowsAbout" = @($allSkills)
+            "url"           = $siteUrl
+            "jobTitle"      = [string]$Data.hero.role
+            "sameAs"        = @($socialLinks)
+            "knowsAbout"    = @($allSkills)
         }
 
         $webSiteEntity = [ordered]@{
-            "@type" = "WebSite"
-            "@id" = "$siteUrl/#website"
-            "url" = $siteUrl
-            "name" = [string]$Data.site.title
-            "publisher" = [ordered]@{ "@id" = "$siteUrl/#person" }
+            "@type"      = "WebSite"
+            "@id"        = "$siteUrl/#website"
+            "url"        = $siteUrl
+            "name"       = [string]$Data.site.title
+            "publisher"  = [ordered]@{ "@id" = "$siteUrl/#person" }
             "inLanguage" = "en-US"
         }
 
@@ -297,14 +301,14 @@ function Build-Site {
             $pTitle = if ($PageMeta.ContainsKey("index.html")) { $PageMeta["index.html"].title } else { $Data.site.title }
             $pDesc = if ($PageMeta.ContainsKey("index.html")) { $PageMeta["index.html"].description } else { $Data.site.description }
             $profilePage = [ordered]@{
-                "@type" = "ProfilePage"
-                "@id" = "$siteUrl/#webpage"
-                "url" = "$siteUrl/"
-                "name" = $pTitle
+                "@type"       = "ProfilePage"
+                "@id"         = "$siteUrl/#webpage"
+                "url"         = "$siteUrl/"
+                "name"        = $pTitle
                 "description" = $pDesc
-                "isPartOf" = [ordered]@{ "@id" = "$siteUrl/#website" }
-                "mainEntity" = [ordered]@{ "@id" = "$siteUrl/#person" }
-                "inLanguage" = "en-US"
+                "isPartOf"    = [ordered]@{ "@id" = "$siteUrl/#website" }
+                "mainEntity"  = [ordered]@{ "@id" = "$siteUrl/#person" }
+                "inLanguage"  = "en-US"
             }
             [void]$graph.Add($webSiteEntity)
             [void]$graph.Add($profilePage)
@@ -314,19 +318,19 @@ function Build-Site {
             $pTitle = if ($PageMeta.ContainsKey("about.html")) { $PageMeta["about.html"].title } else { "About $($Data.site.fullName)" }
             $pDesc = if ($PageMeta.ContainsKey("about.html")) { $PageMeta["about.html"].description } else { $Data.site.description }
             $aboutPage = [ordered]@{
-                "@type" = "AboutPage"
-                "@id" = "$siteUrl/about#webpage"
-                "url" = "$siteUrl/about"
-                "name" = $pTitle
+                "@type"       = "AboutPage"
+                "@id"         = "$siteUrl/about#webpage"
+                "url"         = "$siteUrl/about"
+                "name"        = $pTitle
                 "description" = $pDesc
-                "isPartOf" = [ordered]@{ "@id" = "$siteUrl/#website" }
-                "mainEntity" = [ordered]@{ "@id" = "$siteUrl/#person" }
-                "breadcrumb" = [ordered]@{ "@id" = "$siteUrl/about#breadcrumb" }
-                "inLanguage" = "en-US"
+                "isPartOf"    = [ordered]@{ "@id" = "$siteUrl/#website" }
+                "mainEntity"  = [ordered]@{ "@id" = "$siteUrl/#person" }
+                "breadcrumb"  = [ordered]@{ "@id" = "$siteUrl/about#breadcrumb" }
+                "inLanguage"  = "en-US"
             }
             $breadcrumb = [ordered]@{
-                "@type" = "BreadcrumbList"
-                "@id" = "$siteUrl/about#breadcrumb"
+                "@type"           = "BreadcrumbList"
+                "@id"             = "$siteUrl/about#breadcrumb"
                 "itemListElement" = @(
                     [ordered]@{ "@type" = "ListItem"; "position" = 1; "name" = "Home"; "item" = "$siteUrl/" },
                     [ordered]@{ "@type" = "ListItem"; "position" = 2; "name" = "About"; "item" = "$siteUrl/about" }
@@ -341,19 +345,19 @@ function Build-Site {
             $pTitle = if ($PageMeta.ContainsKey("projects.html")) { $PageMeta["projects.html"].title } else { "Engineering Projects" }
             $pDesc = if ($PageMeta.ContainsKey("projects.html")) { $PageMeta["projects.html"].description } else { $Data.site.description }
             $collectionPage = [ordered]@{
-                "@type" = "CollectionPage"
-                "@id" = "$siteUrl/projects#webpage"
-                "url" = "$siteUrl/projects"
-                "name" = $pTitle
+                "@type"       = "CollectionPage"
+                "@id"         = "$siteUrl/projects#webpage"
+                "url"         = "$siteUrl/projects"
+                "name"        = $pTitle
                 "description" = $pDesc
-                "isPartOf" = [ordered]@{ "@id" = "$siteUrl/#website" }
-                "mainEntity" = [ordered]@{ "@id" = "$siteUrl/projects#itemlist" }
-                "breadcrumb" = [ordered]@{ "@id" = "$siteUrl/projects#breadcrumb" }
-                "inLanguage" = "en-US"
+                "isPartOf"    = [ordered]@{ "@id" = "$siteUrl/#website" }
+                "mainEntity"  = [ordered]@{ "@id" = "$siteUrl/projects#itemlist" }
+                "breadcrumb"  = [ordered]@{ "@id" = "$siteUrl/projects#breadcrumb" }
+                "inLanguage"  = "en-US"
             }
             $breadcrumb = [ordered]@{
-                "@type" = "BreadcrumbList"
-                "@id" = "$siteUrl/projects#breadcrumb"
+                "@type"           = "BreadcrumbList"
+                "@id"             = "$siteUrl/projects#breadcrumb"
                 "itemListElement" = @(
                     [ordered]@{ "@type" = "ListItem"; "position" = 1; "name" = "Home"; "item" = "$siteUrl/" },
                     [ordered]@{ "@type" = "ListItem"; "position" = 2; "name" = "Projects"; "item" = "$siteUrl/projects" }
@@ -364,30 +368,30 @@ function Build-Site {
             foreach ($p in $Data.projects) {
                 $appUrl = if ($p.liveUrl) { $p.liveUrl } else { "$siteUrl/projects" }
                 $appObj = [ordered]@{
-                    "@type" = "SoftwareApplication"
-                    "@id" = "$siteUrl/projects#$($p.id)"
-                    "name" = [string]$p.title
-                    "description" = [string]$p.description
+                    "@type"               = "SoftwareApplication"
+                    "@id"                 = "$siteUrl/projects#$($p.id)"
+                    "name"                = [string]$p.title
+                    "description"         = [string]$p.description
                     "applicationCategory" = "GameEngine|SystemsSoftware"
-                    "operatingSystem" = "All"
-                    "url" = $appUrl
+                    "operatingSystem"     = "All"
+                    "url"                 = $appUrl
                 }
                 if ($p.repoUrl) { $appObj["codeRepository"] = [string]$p.repoUrl }
                 $appObj["author"] = [ordered]@{ "@id" = "$siteUrl/#person" }
 
                 $projItems += [ordered]@{
-                    "@type" = "ListItem"
+                    "@type"    = "ListItem"
                     "position" = $pos
-                    "item" = $appObj
+                    "item"     = $appObj
                 }
                 $pos++
             }
             $itemList = [ordered]@{
-                "@type" = "ItemList"
-                "@id" = "$siteUrl/projects#itemlist"
-                "name" = if ($Data.projectsSection -and $Data.projectsSection.title) { [string]$Data.projectsSection.title } else { "Works & Projects" }
-                "description" = $pDesc
-                "numberOfItems" = $projItems.Count
+                "@type"           = "ItemList"
+                "@id"             = "$siteUrl/projects#itemlist"
+                "name"            = if ($Data.projectsSection -and $Data.projectsSection.title) { [string]$Data.projectsSection.title } else { "Works & Projects" }
+                "description"     = $pDesc
+                "numberOfItems"   = $projItems.Count
                 "itemListElement" = @($projItems)
             }
             [void]$graph.Add($webSiteEntity)
@@ -400,34 +404,34 @@ function Build-Site {
             $pTitle = if ($PageMeta.ContainsKey("contact.html")) { $PageMeta["contact.html"].title } else { "Contact" }
             $pDesc = if ($PageMeta.ContainsKey("contact.html")) { $PageMeta["contact.html"].description } else { $Data.site.description }
             $contactPage = [ordered]@{
-                "@type" = "ContactPage"
-                "@id" = "$siteUrl/contact#webpage"
-                "url" = "$siteUrl/contact"
-                "name" = $pTitle
+                "@type"       = "ContactPage"
+                "@id"         = "$siteUrl/contact#webpage"
+                "url"         = "$siteUrl/contact"
+                "name"        = $pTitle
                 "description" = $pDesc
-                "isPartOf" = [ordered]@{ "@id" = "$siteUrl/#website" }
-                "mainEntity" = [ordered]@{ "@id" = "$siteUrl/#person" }
-                "breadcrumb" = [ordered]@{ "@id" = "$siteUrl/contact#breadcrumb" }
-                "inLanguage" = "en-US"
+                "isPartOf"    = [ordered]@{ "@id" = "$siteUrl/#website" }
+                "mainEntity"  = [ordered]@{ "@id" = "$siteUrl/#person" }
+                "breadcrumb"  = [ordered]@{ "@id" = "$siteUrl/contact#breadcrumb" }
+                "inLanguage"  = "en-US"
             }
             $breadcrumb = [ordered]@{
-                "@type" = "BreadcrumbList"
-                "@id" = "$siteUrl/contact#breadcrumb"
+                "@type"           = "BreadcrumbList"
+                "@id"             = "$siteUrl/contact#breadcrumb"
                 "itemListElement" = @(
                     [ordered]@{ "@type" = "ListItem"; "position" = 1; "name" = "Home"; "item" = "$siteUrl/" },
                     [ordered]@{ "@type" = "ListItem"; "position" = 2; "name" = "Contact"; "item" = "$siteUrl/contact" }
                 )
             }
             $contactPerson = [ordered]@{
-                "@type" = "Person"
-                "@id" = "$siteUrl/#person"
-                "name" = [string]$Data.site.fullName
+                "@type"         = "Person"
+                "@id"           = "$siteUrl/#person"
+                "name"          = [string]$Data.site.fullName
                 "alternateName" = [string]$Data.site.nickname
-                "url" = $siteUrl
-                "jobTitle" = [string]$Data.hero.role
-                "email" = "mailto:$($Data.site.email)"
-                "sameAs" = @($socialLinks)
-                "knowsAbout" = @($allSkills)
+                "url"           = $siteUrl
+                "jobTitle"      = [string]$Data.hero.role
+                "email"         = "mailto:$($Data.site.email)"
+                "sameAs"        = @($socialLinks)
+                "knowsAbout"    = @($allSkills)
             }
             [void]$graph.Add($webSiteEntity)
             [void]$graph.Add($contactPage)
@@ -437,7 +441,7 @@ function Build-Site {
 
         $jsonLdObj = [ordered]@{
             "@context" = "https://schema.org"
-            "@graph" = @($graph)
+            "@graph"   = @($graph)
         }
 
         $jsonStr = $jsonLdObj | ConvertTo-Json -Depth 10
@@ -602,9 +606,11 @@ function Build-Site {
             # Mirror to Workspace Root for Live Server & Local Preview
             if ($PageBase -eq "index") {
                 Safe-WriteAllText (Join-Path $ScriptDir "index.html") $Content
-            } elseif ($PageBase -eq "404") {
+            }
+            elseif ($PageBase -eq "404") {
                 Safe-WriteAllText (Join-Path $ScriptDir "404.html") $Content
-            } else {
+            }
+            else {
                 # Mirror both root/<pageBase>.html AND root/<pageBase>/index.html
                 Safe-WriteAllText (Join-Path $ScriptDir "$PageBase.html") $Content
                 $RootSubDir = Join-Path $ScriptDir $PageBase
@@ -613,7 +619,8 @@ function Build-Site {
 
             if ($PageBase -ne "index" -and $PageBase -ne "404") {
                 Write-Host " [HTML] Compiled: dist/$PageName & dist/$PageBase/index.html (mirrored to root)" -ForegroundColor Green
-            } else {
+            }
+            else {
                 Write-Host " [HTML] Compiled: dist/$PageName (mirrored to root)" -ForegroundColor Green
             }
         }
@@ -628,7 +635,8 @@ function Build-Site {
         if ($slug -eq "index") {
             $priority = "1.0"
             $pageUrl = "$($Data.site.url)/"
-        } else {
+        }
+        else {
             $priority = "0.8"
             $pageUrl = "$($Data.site.url)/$slug"
         }
@@ -846,7 +854,8 @@ if ($Watch) {
                 $changed = $true
                 $changedFile = Split-Path -Leaf $p
                 break
-            } elseif ($currentSnapshot[$p] -ne $lastSnapshot[$p]) {
+            }
+            elseif ($currentSnapshot[$p] -ne $lastSnapshot[$p]) {
                 $changed = $true
                 $changedFile = Split-Path -Leaf $p
                 break
@@ -870,7 +879,8 @@ if ($Watch) {
             Write-Host "`n[Watcher] Change detected in '$changedFile' at $time. Rebuilding..." -ForegroundColor Yellow
             try {
                 Build-Site
-            } catch {
+            }
+            catch {
                 Write-Host " [Watcher Error] Build failed: $_" -ForegroundColor Red
             }
             $lastSnapshot = Get-WatchSnapshot

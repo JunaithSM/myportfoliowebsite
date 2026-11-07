@@ -3,8 +3,8 @@
     "name": "S Mohammed Junaith",
     "fullName": "S Mohammed Junaith",
     "nickname": "Junaith",
-    "title": "S Mohammed Junaith  — Game Developer & Software Engineer",
-    "description": "Portfolio and engineering benchmarks of S Mohammed Junaith : Software engineer specializing in zero-overhead web engines, low-latency protocols, and standards-compliant architectures.",
+    "title": "S Mohammed Junaith — Game Developer & Software Engineer",
+    "description": "Portfolio of S Mohammed Junaith: Game developer, gameplay programmer, and software engineer crafting gameplay mechanics, interactive graphics, and high-performance software.",
     "url": "https://www.junaith.dev",
     "author": "S Mohammed Junaith",
     "email": "hello@junaith.dev",
@@ -258,7 +258,7 @@
   ],
   "experienceSection": {
     "title": "My Experience",
-    "subtitle": "A progression of architecting reliable, high-efficiency digital systems."
+    "subtitle": "A progression of game development, interactive systems, and high-performance software."
   },
   "experience": [
     {
@@ -282,7 +282,7 @@
   ],
   "contact": {
     "title": "Let's connect",
-    "subtitle": "Systems architecture inquiries, latency profiling, and engineering roles.",
+    "subtitle": "Game development, gameplay programming, and software engineering inquiries.",
     "formTitle": "Direct message",
     "formButton": "Send message"
   }
